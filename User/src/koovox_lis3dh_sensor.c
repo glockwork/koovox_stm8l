@@ -1,0 +1,493 @@
+/****************************************************************************
+ Copyright (C) JoySoft . 2015-2025
+ Part of KOOVOX 1.0.1
+ @brief  LIS3DH Accelerate Sensor I2C Interface pins
+
+FILE NAME
+    koovox_lis3dh_sensor.c
+ 
+*/
+
+#include <stdlib.h>
+#include <string.h>
+
+#include "koovox_lis3dh_sensor.h"
+#include "koovox_uart.h"
+#include "koovox_message_handle.h"
+
+#include "koovox_neck_protect.h"
+#include "koovox_head_action.h"
+#include "koovox_const_seat.h"
+#include "koovox_step_count.h"
+
+
+#define ACC_LSD		((int16_t)1638)
+
+uint32_t index_acc = 0;
+uint32_t curr_time  = 0;
+
+/** @defgroup koovox_lis3dh_sensor_Private_Functions ****/
+
+/**
+  * @brief  Initializes the LIS3DH_I2C..
+  * @param  None
+  * @retval None
+  */
+static void LIS3DH_LowLevel_Init(void)
+{
+  /*!< LIS3DH_I2C Periph clock enable */
+  CLK_PeripheralClockConfig(LIS3DH_I2C_CLK, ENABLE);
+
+  /* Configure PC.4 as Input pull-up, used as TemperatureSensor_INT */
+  GPIO_Init(LIS3DH_I2C_SMBUSALERT_GPIO_PORT, LIS3DH_I2C_SMBUSALERT_PIN, GPIO_Mode_In_FL_No_IT);
+
+}
+
+/**
+  * @brief  Initializes the LIS3DH_I2C.
+  * @param  None
+  * @retval None
+  */
+void LIS3DH_Init(void)
+{
+
+  LIS3DH_LowLevel_Init();
+
+  /* I2C DeInit */
+  I2C_DeInit(LIS3DH_I2C);
+
+  /* I2C configuration */
+  I2C_Init(LIS3DH_I2C, LIS3DH_I2C_SPEED, 0x00, I2C_Mode_SMBusHost,
+           I2C_DutyCycle_2, I2C_Ack_Enable, I2C_AcknowledgedAddress_7bit);
+
+  /*!< Enable SMBus Alert interrupt */
+  I2C_ITConfig(LIS3DH_I2C, I2C_IT_ERR, ENABLE);
+
+  /*!< LIS3DH_I2C Init */
+  I2C_Cmd(LIS3DH_I2C, ENABLE);
+}
+
+
+/**
+  * @brief  Read the specified register from the LIS3DH.
+  * @param  RegName: specifies the LIS3DH register to be read.
+  * @retval LIS3DH register value.
+  */
+uint8_t LIS3DH_ReadReg(uint8_t RegName) 
+{
+  __IO uint8_t RegValue = 0;
+
+  /* Enable LIS3DH_I2C acknowledgement if it is already disabled by other function */
+  I2C_AcknowledgeConfig(LIS3DH_I2C, ENABLE);
+
+  /*--------------------------- Transmission Phase ----------------------------*/
+  /* Send LIS3DH_I2C START condition */
+  I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
+
+  /* Test on LIS3DH_I2C EV5 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))  /* EV5 */
+  {
+  }
+
+  /* Send STLIS3DH slave address for write */
+  I2C_Send7bitAddress(LIS3DH_I2C, LIS3DH_ADDR, I2C_Direction_Transmitter);
+
+  /* Test on LIS3DH_I2C EV6 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)) /* EV6 */
+  {
+  }
+
+  /* Send the specified register data pointer */
+  I2C_SendData(LIS3DH_I2C, RegName);
+
+  /* Test on LIS3DH_I2C EV8 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED)) /* EV8 */
+  {
+  }
+
+  /*------------------------------ Reception Phase ----------------------------*/
+  /* Send Re-STRAT condition */
+  I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
+
+  /* Test on EV5 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))  /* EV5 */
+  {
+  }
+
+  /* Send STLIS3DH slave address for read */
+  I2C_Send7bitAddress(LIS3DH_I2C, LIS3DH_ADDR, I2C_Direction_Receiver);
+
+  /* Test on EV6 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED))  /* EV6 */
+  {
+  }
+
+  /* Test on EV7 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_RECEIVED))  /* EV7 */
+  {
+  }
+
+  /* Store LIS3DH_I2C received data */
+  RegValue = I2C_ReceiveData(LIS3DH_I2C);
+
+  /* Disable LIS3DH_I2C acknowledgement */
+  I2C_AcknowledgeConfig(LIS3DH_I2C, DISABLE);
+
+  /* Send LIS3DH_I2C STOP Condition */
+  I2C_GenerateSTOP(LIS3DH_I2C, ENABLE);
+
+  /* Test on RXNE flag */
+  while (I2C_GetFlagStatus(LIS3DH_I2C, I2C_FLAG_RXNE) == RESET)
+  {}
+
+  /* Return register value */
+  return (RegValue);
+}
+
+/**
+  * @brief  Write to the specified register of the LIS3DH.
+  * @param  RegName: specifies the LIS3DH register to be written.
+  * @param  RegValue: value to be written to LIS3DH register.
+  * @retval None
+  */
+void LIS3DH_WriteReg(uint8_t RegName, uint8_t RegValue)
+{
+  /*-------------------------------- Transmission Phase -----------------------*/
+  /* Send LIS3DH_I2C START condition */
+  I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
+
+  /* Test on LIS3DH_I2C EV5 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))  /* EV5 */
+  {
+  }
+
+  /* Send STLIS3DH slave address for write */
+  I2C_Send7bitAddress(LIS3DH_I2C, LIS3DH_ADDR, I2C_Direction_Transmitter);
+
+  /* Test on LIS3DH_I2C EV6 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)) /* EV6 */
+  {
+  }
+
+  /* Send the specified register data pointer */
+  I2C_SendData(LIS3DH_I2C, RegName);
+
+  /* Test on LIS3DH_I2C EV8 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED)) /* EV8 */
+  {
+  }
+
+  /* Send LIS3DH_I2C data */
+  I2C_SendData(LIS3DH_I2C, RegValue );
+
+  /* Test on LIS3DH_I2C EV8 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED)) /* EV8 */
+  {
+  }
+
+  /* Send LIS3DH_I2C STOP Condition */
+  I2C_GenerateSTOP(LIS3DH_I2C, ENABLE);
+}
+
+/**
+  * @brief  Read Axis register of LIS3DH
+  * @param  :
+  *		data_buff:the receive buff address of payload
+  *		data_len: the length of receive data
+  * @retval None.
+  */
+void LIS3DH_ReadAccData(uint8_t* data_buff, uint16_t data_len)
+{
+
+  uint16_t i = 0;
+
+  /* Enable LIS3DH_I2C acknowledgement if it is already disabled by other function */
+  I2C_AcknowledgeConfig(LIS3DH_I2C, ENABLE);
+
+  /*------------------------------------- Transmission Phase ------------------*/
+  /* Send LIS3DH_I2C START condition */
+  I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
+
+  /* Test on LIS3DH_I2C EV5 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))  /* EV5 */
+  {
+  }
+
+  /* Send STLIS3DH slave address for write */
+  I2C_Send7bitAddress(LIS3DH_I2C, LIS3DH_ADDR, I2C_Direction_Transmitter);
+
+  /* Test on LIS3DH_I2C EV6 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)) /* EV6 */
+  {
+  }
+
+  /* Send the temperature register data pointer */
+  I2C_SendData(LIS3DH_I2C, LIS3DH_OUT_MUL);
+
+  /* Test on LIS3DH_I2C EV8 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED)) /* EV8 */
+  {
+  }
+
+  /*-------------------------------- Reception Phase --------------------------*/
+  /* Send Re-STRAT condition */
+  I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
+
+  /* Test on EV5 and clear it */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))  /* EV5 */
+  {
+  }
+
+  /* Send STLIS3DH slave address for read */
+  I2C_Send7bitAddress(LIS3DH_I2C, LIS3DH_ADDR, I2C_Direction_Receiver);
+
+  for(i = 0; i < data_len; i++)
+  {
+	  /* Test on EV6 and clear it */
+	  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED))	/* EV6 */
+	  {
+	  }
+
+
+	  
+	  /* Store LIS3DH_I2C received data */
+	  data_buff[i] = I2C_ReceiveData(LIS3DH_I2C) ;
+  }
+
+  /* Disable LIS3DH_I2C acknowledgement */
+  I2C_AcknowledgeConfig(LIS3DH_I2C, DISABLE);
+
+  /* Send LIS3DH_I2C STOP Condition */
+  I2C_GenerateSTOP(LIS3DH_I2C, ENABLE);
+
+  /* Test on RXNE flag */
+  while (I2C_GetFlagStatus(LIS3DH_I2C, I2C_FLAG_RXNE) == RESET);  
+
+}
+
+
+/**
+  * @brief  Initializes the LIS3DH config register.
+  * @param  None
+  * @retval None
+  */
+void LIS3DH_Init_Config(void)
+{
+	// set CTRL_REG1
+	LIS3DH_WriteReg(LIS3DH_CTRL_REG1, LIS3DH_CTRL_REG1_VALUE);
+
+	// set CTRL_REG4
+	LIS3DH_WriteReg(LIS3DH_CTRL_REG4, LIS3DH_CTRL_REG4_VALUE);
+}
+
+/**
+* @brief  Koovox_calc_accelerate
+* @param  none
+* @retval none.
+*/
+static int8_t Koovox_get_acc_value(int16_t axis_x)
+{
+	int8_t acc = 0;
+	
+	if((axis_x % 100) >= 50)
+	{
+		acc = axis_x / 100 + 1;
+	}
+	else if((axis_x % 100) <= -50)
+	{
+		acc = axis_x / 100 - 1;
+	}
+	else
+	{
+		acc = axis_x / 100;
+	}
+
+	return acc;
+}
+
+
+/**
+* @brief  Koovox_ad_to_acc
+* @param  
+*		ad_value : adc value
+* @retval accelerate value
+*/
+static int16_t Koovox_ad_to_acc(uint16_t ad_value)
+{
+	int16_t acc_value = 0, temp = 0, value = 0;
+	uint8_t i = 0;
+
+	value = (int16_t)ad_value;
+	
+	for(; i<3; i++)
+	{
+		temp = value / ACC_LSD;
+		value %= ACC_LSD;
+		value *= 10;
+		acc_value = acc_value*10 + temp;
+	}
+
+	return acc_value;
+
+}
+
+/**
+* @brief  Koovox_convert_acc_value (实际加速度的1000倍)
+* @param  
+*		ad_data:
+*		axis_x:
+*		axis_y:
+*		axis_z:
+* @retval none
+*/
+static void Koovox_convert_acc_value(uint8_t* ad_data, int16_t* axis_x, int16_t* axis_y, int16_t* axis_z)
+{
+	uint16_t ad_x, ad_y, ad_z;
+	ad_x = (uint16_t)ad_data[0] + ((uint16_t)ad_data[1] << 8);
+	ad_y = (uint16_t)ad_data[2] + ((uint16_t)ad_data[3] << 8);
+	ad_z = (uint16_t)ad_data[4] + ((uint16_t)ad_data[5] << 8);
+
+	*axis_x = Koovox_ad_to_acc(ad_x);
+	*axis_y = Koovox_ad_to_acc(ad_y);
+	*axis_z = Koovox_ad_to_acc(ad_z);
+	
+}
+
+/**
+* @brief  Koovox_ad_to_acc
+* @param  
+*		ad_value : adc value
+* @retval accelerate value
+*/
+bool Koovox_read_acc_value(uint8_t* data, uint16_t size_data)
+{
+	bool result = TRUE;
+	
+	if(LIS3DH_ReadReg(LIS3DH_STATUS_REG))
+	{
+		LIS3DH_ReadAccData(data, size_data);
+	}
+	else
+	{
+		result = FALSE;
+	}
+
+	return result;
+}
+
+
+/**
+* @brief  Koovox_calc_accelerate
+* @param  none
+* @retval none.
+*/
+void Koovox_calc_accelerate(void)
+{
+	uint8_t acc_data[ACC_READ_SIZE] = {0};
+
+	if(!step_count_enable)
+	{
+		return;
+	}
+
+	if(Koovox_read_acc_value(acc_data, ACC_READ_SIZE))
+	{
+		
+		int16_t axis_x = 0, axis_y = 0, axis_z = 0;
+		int8_t acc_x , acc_y, acc_z;
+			
+		// 将原始AD采样值转换为重力加速度值	(加速度的1000倍)
+		Koovox_convert_acc_value(acc_data, &axis_x, &axis_y, &axis_z);
+
+		acc_x = Koovox_get_acc_value(axis_x);
+		acc_y = Koovox_get_acc_value(axis_y);
+		acc_z = Koovox_get_acc_value(axis_z);                
+
+		index_acc++;
+
+#if 0
+		{
+			uint8_t value[3] = {0};
+			
+			value[0] = acc_x;
+			value[1] = acc_y;
+			value[2] = acc_z;
+			
+			Koovox_fill_and_send_packet(ENV, HEAD_ACTION, value, 3);
+		}
+#endif
+		
+		// 计步功能
+		if(step_count_enable)
+		{
+			Koovox_step_count(acc_x, acc_y, index_acc);
+		}
+
+		// 颈椎保护
+		if(neck_protect_enable)
+		{
+			Koovox_neck_protect(axis_x, axis_y, axis_z, acc_x, acc_y, acc_z);
+		}
+
+		// 久坐提醒
+		if(const_seat_enable)
+		{
+			Koovox_const_seat(acc_x, acc_y, index_acc);
+		}
+
+		// 头部动作识别
+		if(head_action_enable)
+		{
+			Koovox_head_action(acc_x, acc_x, acc_x);
+		}		
+	}
+}
+
+
+/**
+* @brief  Koovox_calc_accelerate
+* @param  none
+* @retval none.
+*/
+void Koovox_enable_time_counter(void)
+{
+	// 初始化定时器
+	CLK_PeripheralClockConfig(CLK_Peripheral_TIM3, ENABLE);
+	TIM3_TimeBaseInit(TIM3_Prescaler_128, TIM3_CounterMode_Up,0xf424);	//  1000ms
+	TIM3_ClearFlag(TIM3_FLAG_Update);
+	TIM3_ITConfig(TIM3_IT_Update, ENABLE);
+	
+	TIM3_Cmd(ENABLE);
+}
+
+
+/**
+  * @brief Timer3 Update/Overflow/Trigger/Break Interrupt routine.
+  * @param  None
+  * @retval None
+  */
+INTERRUPT_HANDLER(TIM3_UPD_OVF_TRG_BRK_USART3_TX_IRQHandler,21)
+{	
+	disableInterrupts();
+
+	TIM3_ClearFlag(TIM3_FLAG_Update);
+
+	curr_time++;
+
+	enableInterrupts();
+
+}
+
+/**
+  * @brief I2C1 / SPI2 Interrupt routine.
+  * @param  None
+  * @retval None
+  */
+INTERRUPT_HANDLER(I2C1_SPI2_IRQHandler,29)
+{
+	I2C_ClearITPendingBit(LIS3DH_I2C, I2C_IT_ERR);
+}
+
+
+
+

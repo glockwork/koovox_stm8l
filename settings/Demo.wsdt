@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>Demo/Koovox</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>316</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1395</ColumnWidth1><ColumnWidth2>372</ColumnWidth2><ColumnWidth3>93</ColumnWidth3></Build>
+    <Debug-Log><ColumnWidth0>23</ColumnWidth0><ColumnWidth1>1362</ColumnWidth1></Debug-Log><TerminalIO/></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-17957-4308</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>Demo</ExpandedNode><ExpandedNode>Demo/Output</ExpandedNode><ExpandedNode>Demo/StdPeriph_Driver</ExpandedNode><ExpandedNode>Demo/StdPeriph_Driver/inc</ExpandedNode><ExpandedNode>Demo/StdPeriph_Driver/src</ExpandedNode><ExpandedNode>Demo/User</ExpandedNode><ExpandedNode>Demo/User/inc</ExpandedNode><ExpandedNode>Demo/User/src</ExpandedNode><ExpandedNode>Demo/User/stm8l15x_it.c</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-30043-4491</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-4162-29321</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_usart.c</Filename><XPos>0</XPos><YPos>1162</YPos><SelStart>44522</SelStart><SelEnd>44522</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_uart.c</Filename><XPos>0</XPos><YPos>129</YPos><SelStart>2710</SelStart><SelEnd>2710</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_neck_protect.c</Filename><XPos>0</XPos><YPos>53</YPos><SelStart>1389</SelStart><SelEnd>1389</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c</Filename><XPos>0</XPos><YPos>1055</YPos><SelStart>36835</SelStart><SelEnd>36835</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_lis3dh_sensor.c</Filename><XPos>0</XPos><YPos>493</YPos><SelStart>11036</SelStart><SelEnd>11036</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_message_handle.c</Filename><XPos>0</XPos><YPos>118</YPos><SelStart>2489</SelStart><SelEnd>2489</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_const_seat.c</Filename><XPos>0</XPos><YPos>55</YPos><SelStart>1224</SelStart><SelEnd>1224</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_step_count.c</Filename><XPos>0</XPos><YPos>96</YPos><SelStart>2018</SelStart><SelEnd>2018</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\main.c</Filename><XPos>0</XPos><YPos>14</YPos><SelStart>421</SelStart><SelEnd>421</SelEnd></Tab><ActiveTab>8</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-00763028><key>iaridepm.enu1</key></Toolbar-00763028></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>626</Bottom><Right>407</Right><x>-2</x><y>-2</y><xscreen>68</xscreen><yscreen>108</yscreen><sizeHorzCX>54487</sizeHorzCX><sizeHorzCY>133498</sizeHorzCY><sizeVertCX>327724</sizeVertCX><sizeVertCY>776267</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>138</Bottom><Right>1250</Right><x>-2</x><y>-2</y><xscreen>1252</xscreen><yscreen>140</yscreen><sizeHorzCX>1003205</sizeHorzCX><sizeHorzCY>173053</sizeHorzCY><sizeVertCX>54487</sizeVertCX><sizeVertCY>133498</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+
