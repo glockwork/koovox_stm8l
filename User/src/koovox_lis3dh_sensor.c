@@ -22,6 +22,9 @@ FILE NAME
 
 
 #define ACC_LSD		((int16_t)1638)
+#define LIS3DH_TEST_SUC	((uint8_t)0x01)
+#define LIS3DH_TEST_FAIL	((uint8_t)0x0)
+
 
 uint32_t index_acc = 0;
 uint32_t curr_time  = 0;
@@ -332,6 +335,29 @@ void LIS3DH_Init_Config(void)
 
 	// set CTRL_REG4
 	LIS3DH_WriteReg(LIS3DH_CTRL_REG4, LIS3DH_CTRL_REG4_VALUE);
+}
+
+/**
+  * @brief  LIS3DH_status
+  * @param  None
+  * @retval None
+  */
+void LIS3DH_status(void)
+{
+	uint8_t value = 0;
+	
+	if(LIS3DH_ReadReg(WHO_AM_I) == 0x33)
+	{
+		// i2c is ok
+		value = LIS3DH_TEST_SUC;
+	}
+	else
+	{
+		// i2c is bad
+		value = LIS3DH_TEST_FAIL;
+	}
+	
+	Koovox_fill_and_send_packet(ENV, I2C_TEST, &value, 1);
 }
 
 /**

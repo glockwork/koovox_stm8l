@@ -50,10 +50,6 @@ typedef struct{
 	uint8_t data[1];
 }Usart_msg;
 
-
-
-
-
 void Koovox_message_handle(uint8_t* msg, uint8_t size);
 void Koovox_fill_and_send_packet(uint8_t cmd, uint8_t obj, uint8_t* value, uint8_t size_value);
 

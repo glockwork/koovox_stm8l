@@ -28,20 +28,24 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=704547303
+Checksum=1342853893
 [CallStack]
 ShowArgs=0
 [Disassembly]
 MixedMode=0
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
 Count=0
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
 [Aliases]
-Count=0
+A0=_ "D:\STM8\STM8L15x_StdPeriph_Driver\src\stm8l15x_adc.c" ""
+A1=_ "D:\STM8\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c" ""
+A2=_ "D:\koovox_stm8l\User\src\koovox_hb_sensor.c" ""
+A3=_ "D:\koovox_stm8l\User\src\main.c" ""
+Count=4
 SuppressDialog=0

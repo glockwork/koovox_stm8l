@@ -16,10 +16,6 @@ FILE NAME
 #include "koovox_lis3dh_sensor.h"
 #include "koovox_hb_sensor.h"
 
-
-#define I2C_TEST_SUC	((uint8_t)0x01)
-#define I2C_TEST_FAIL	((uint8_t)0x0)
-
 int main( void )
 {
 	/*********** 初始化内部系统时钟 **********/
@@ -40,27 +36,6 @@ int main( void )
 	LIS3DH_Init();
 	LIS3DH_Init_Config();
 	
-
-	/*********** I2c test *******************/
-	{
-		uint8_t value = 0;
-		
-		if(LIS3DH_ReadReg(WHO_AM_I) == 0x33)
-		{
-			// i2c is ok
-			value = I2C_TEST_SUC;
-		}
-		else
-		{
-			// i2c is bad
-			value = I2C_TEST_FAIL;
-		}
-		
-		Koovox_fill_and_send_packet(ENV, I2C_TEST, &value, 1);
-
-	}
-
-
 	while(1)
 	{
 	

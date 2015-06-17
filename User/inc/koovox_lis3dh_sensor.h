@@ -86,6 +86,8 @@ uint8_t LIS3DH_ReadReg(uint8_t RegName);
 void LIS3DH_WriteReg(uint8_t RegName, uint8_t RegValue);
 void LIS3DH_ReadAccData(uint8_t* data_buff, uint16_t data_len);
 void LIS3DH_Init_Config(void);
+void LIS3DH_status(void);
+
 
 bool Koovox_read_acc_value(uint8_t* data, uint16_t size_data);
 void Koovox_calc_accelerate(void);

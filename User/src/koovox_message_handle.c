@@ -69,6 +69,10 @@ void Koovox_message_handle(uint8_t* msg, uint8_t size)
 			case HEART_RATE:		// Æô¶¯ÐÄÂÊ¼ì²â
 				ret = Koovox_enable_heart_rate();
 				break;
+
+			case I2C_TEST:
+				LIS3DH_status();
+				break;
 				
 			default:
 				break;
