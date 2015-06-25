@@ -34,7 +34,8 @@ int main( void )
 
 	/*********** I2C ≥ı ºªØ ***************/
 	LIS3DH_Init();
-	LIS3DH_Init_Config();
+
+	//LIS3DH_status();
 	
 	while(1)
 	{

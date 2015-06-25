@@ -82,6 +82,7 @@ FILE NAME
 
 /** @defgroup koovox_lis3dh_sensor_Private_Functions ****/
 void LIS3DH_Init(void);
+void LIS3DH_DeInit(void);
 uint8_t LIS3DH_ReadReg(uint8_t RegName);
 void LIS3DH_WriteReg(uint8_t RegName, uint8_t RegValue);
 void LIS3DH_ReadAccData(uint8_t* data_buff, uint16_t data_len);

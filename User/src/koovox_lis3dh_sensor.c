@@ -43,8 +43,44 @@ static void LIS3DH_LowLevel_Init(void)
 
   /* Configure PC.4 as Input pull-up, used as TemperatureSensor_INT */
   GPIO_Init(LIS3DH_I2C_SMBUSALERT_GPIO_PORT, LIS3DH_I2C_SMBUSALERT_PIN, GPIO_Mode_In_FL_No_IT);
-
 }
+
+/**
+  * @brief  DeInitializes the LIS3DH_I2C.
+  * @param  None
+  * @retval None
+  */
+static void LIS3DH_LowLevel_DeInit(void)
+{
+  /*!< Disable LIS3DH_I2C */
+  I2C_Cmd(LIS3DH_I2C, DISABLE);
+  /*!< DeInitializes the LIS3DH_I2C */
+  I2C_DeInit(LIS3DH_I2C);
+
+  /*!< LIS3DH_I2C Periph clock disable */
+  CLK_PeripheralClockConfig(LIS3DH_I2C_CLK, DISABLE);
+
+  /*!< Configure LIS3DH_I2C pins: SCL */
+  GPIO_Init(LIS3DH_I2C_SCL_GPIO_PORT, LIS3DH_I2C_SCL_PIN, GPIO_Mode_In_PU_No_IT);
+
+  /*!< Configure LIS3DH_I2C pins: SDA */
+  GPIO_Init(LIS3DH_I2C_SDA_GPIO_PORT, LIS3DH_I2C_SDA_PIN, GPIO_Mode_In_PU_No_IT);
+
+  /*!< Configure LIS3DH_I2C pin: SMBUS ALERT */
+  GPIO_Init(LIS3DH_I2C_SMBUSALERT_GPIO_PORT, LIS3DH_I2C_SMBUSALERT_PIN, GPIO_Mode_In_FL_No_IT);
+}
+
+
+/**
+  * @brief  DeInitializes the LIS3DH_I2C.
+  * @param  None
+  * @retval None
+  */
+void LIS3DH_DeInit(void)
+{
+  LIS3DH_LowLevel_DeInit();
+}
+
 
 /**
   * @brief  Initializes the LIS3DH_I2C.
@@ -176,6 +212,10 @@ uint8_t LIS3DH_ReadReg(uint8_t RegName)
 void LIS3DH_WriteReg(uint8_t RegName, uint8_t RegValue)
 {
 	uint32_t I2C_TimeOut = I2C_TIMEOUT;
+
+  /* Enable LIS3DH_I2C acknowledgement if it is already disabled by other function */
+  I2C_AcknowledgeConfig(LIS3DH_I2C, ENABLE);
+
   /*-------------------------------- Transmission Phase -----------------------*/
   /* Send LIS3DH_I2C START condition */
   I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
@@ -218,6 +258,9 @@ void LIS3DH_WriteReg(uint8_t RegName, uint8_t RegValue)
   {
 	  I2C_TimeOut--;
   }
+
+  /* Disable LIS3DH_I2C acknowledgement */
+  I2C_AcknowledgeConfig(LIS3DH_I2C, DISABLE);
 
   /* Send LIS3DH_I2C STOP Condition */
   I2C_GenerateSTOP(LIS3DH_I2C, ENABLE);
@@ -566,6 +609,9 @@ INTERRUPT_HANDLER(TIM3_UPD_OVF_TRG_BRK_USART3_TX_IRQHandler,21)
 INTERRUPT_HANDLER(I2C1_SPI2_IRQHandler,29)
 {
 	I2C_ClearITPendingBit(LIS3DH_I2C, I2C_IT_ERR);
+
+	LIS3DH_DeInit();
+	LIS3DH_Init();
 }
 
 

@@ -35,6 +35,7 @@ uint8_t Koovox_enable_step_count(void)
 	if(!step_count_enable)
 	{
 		step_count_enable = TRUE;
+		LIS3DH_Init_Config();
 	}
 	else
 		return PROCESS;

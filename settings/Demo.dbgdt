@@ -33,13 +33,13 @@
         <DisasmHistory/>
         
         
-      <ShowCodeCoverage>0</ShowCodeCoverage><ShowInstrProfiling>0</ShowInstrProfiling></Disassembly>
-    <Register><PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows></Register><Locals><col-names><item>Location</item><item>Type</item><item>Value</item><item>Variable</item></col-names><col-widths><item>150</item><item>100</item><item>138</item><item>100</item></col-widths></Locals></Static>
+      <PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows><ShowCodeCoverage>0</ShowCodeCoverage><ShowInstrProfiling>0</ShowInstrProfiling></Disassembly>
+    <Register><PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows></Register><Locals><col-names><item>Location</item><item>Type</item><item>Value</item><item>Variable</item></col-names><col-widths><item>150</item><item>100</item><item>138</item><item>100</item></col-widths><PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows></Locals></Static>
     <Windows>
       
       
       
-    <Wnd3>
+    <Wnd1>
         <Tabs>
           <Tab>
             <Identity>TabID-32689-22339</Identity>
@@ -55,7 +55,7 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd3><Wnd5>
+      <SelectedTab>0</SelectedTab></Wnd1><Wnd2>
         <Tabs>
           <Tab>
             <Identity>TabID-10669-22342</Identity>
@@ -67,30 +67,20 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd5><Wnd6>
-        <Tabs>
-          <Tab>
-            <Identity>TabID-21417-22345</Identity>
-            <TabName>Disassembly</TabName>
-            <Factory>Disassembly</Factory>
-            <Session/>
-          </Tab>
-        </Tabs>
-        
-      <SelectedTab>0</SelectedTab></Wnd6><Wnd7><Tabs><Tab><Identity>TabID-31464-3217</Identity><TabName>Locals</TabName><Factory>Locals</Factory></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd7></Windows>
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd4><Tabs><Tab><Identity>TabID-19901-10315</Identity><TabName>Disassembly</TabName><Factory>Disassembly</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd4></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\main.c</Filename><XPos>0</XPos><YPos>15</YPos><SelStart>404</SelStart><SelEnd>404</SelEnd></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c</Filename><XPos>0</XPos><YPos>1046</YPos><SelStart>36565</SelStart><SelEnd>36565</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\main.c</Filename><XPos>0</XPos><YPos>14</YPos><SelStart>404</SelStart><SelEnd>404</SelEnd></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c</Filename><XPos>0</XPos><YPos>235</YPos><SelStart>10000</SelStart><SelEnd>10000</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_hb_sensor.c</Filename><XPos>0</XPos><YPos>174</YPos><SelStart>3171</SelStart><SelEnd>3171</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_uart.c</Filename><XPos>0</XPos><YPos>90</YPos><SelStart>1727</SelStart><SelEnd>1727</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-03303a38><key>iaridepm.enu1</key></Toolbar-03303a38></Sizes></Row0><Row1><Sizes><Toolbar-1025f8a0><key>debuggergui.enu1</key></Toolbar-1025f8a0></Sizes></Row1></Top><Left><Row0><Sizes><Wnd5><Rect><Top>-2</Top><Left>-2</Left><Bottom>282</Bottom><Right>476</Right><x>-2</x><y>-2</y><xscreen>1066</xscreen><yscreen>460</yscreen><sizeHorzCX>854167</sizeHorzCX><sizeHorzCY>568603</sizeHorzCY><sizeVertCX>383013</sizeVertCX><sizeVertCY>351051</sizeVertCY></Rect></Wnd5></Sizes></Row0></Left><Right><Row0><Sizes><Wnd6><Rect><Top>-2</Top><Left>-2</Left><Bottom>282</Bottom><Right>207</Right><x>-2</x><y>-2</y><xscreen>1066</xscreen><yscreen>460</yscreen><sizeHorzCX>854167</sizeHorzCX><sizeHorzCY>568603</sizeHorzCY><sizeVertCX>167468</sizeVertCX><sizeVertCY>351051</sizeVertCY></Rect></Wnd6></Sizes></Row0><Row1><Sizes><Wnd7><Rect><Top>-2</Top><Left>205</Left><Bottom>282</Bottom><Right>403</Right><x>205</x><y>-2</y><xscreen>434</xscreen><yscreen>246</yscreen><sizeHorzCX>347756</sizeHorzCX><sizeHorzCY>304079</sizeHorzCY><sizeVertCX>158654</sizeVertCX><sizeVertCY>351051</sizeVertCY></Rect></Wnd7></Sizes></Row1></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>458</Bottom><Right>1250</Right><x>-2</x><y>-2</y><xscreen>1252</xscreen><yscreen>460</yscreen><sizeHorzCX>1003205</sizeHorzCX><sizeHorzCY>568603</sizeHorzCY><sizeVertCX>854167</sizeVertCX><sizeVertCY>568603</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-02a130b0><key>iaridepm.enu1</key></Toolbar-02a130b0></Sizes></Row0><Row1><Sizes><Toolbar-187208e0><key>debuggergui.enu1</key></Toolbar-187208e0></Sizes></Row1></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>282</Bottom><Right>476</Right><x>-2</x><y>-2</y><xscreen>1066</xscreen><yscreen>460</yscreen><sizeHorzCX>854167</sizeHorzCX><sizeHorzCY>568603</sizeHorzCY><sizeVertCX>383013</sizeVertCX><sizeVertCY>351051</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes><Wnd4><Rect><Top>-2</Top><Left>-2</Left><Bottom>282</Bottom><Right>198</Right><x>-2</x><y>-2</y><xscreen>200</xscreen><yscreen>200</yscreen><sizeHorzCX>160256</sizeHorzCX><sizeHorzCY>247219</sizeHorzCY><sizeVertCX>160256</sizeVertCX><sizeVertCY>351051</sizeVertCY></Rect></Wnd4></Sizes></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>458</Bottom><Right>1250</Right><x>-2</x><y>-2</y><xscreen>1252</xscreen><yscreen>460</yscreen><sizeHorzCX>1003205</sizeHorzCX><sizeHorzCY>568603</sizeHorzCY><sizeVertCX>854167</sizeVertCX><sizeVertCY>568603</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Project>
 
