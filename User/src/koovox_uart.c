@@ -17,9 +17,6 @@ FILE NAME
 uint8_t usart_msg[USART_MSG_SIZE] = {0};
 uint8_t size = 0;
 bool frame_valid = FALSE;
-uint8_t rcv_msg[FRAME_SIZE] = {0};
-uint8_t offset = 0;
-
 
 /**
   * @brief  init usart1 
@@ -43,7 +40,7 @@ void Init_usart1(uint32_t BaudRate)
   *		size:
   * @retval true is find or false is not find frame tail
   */
-bool Koovox_check_frame_tail(const uint8_t* msg, const char* frame_tail, uint16_t size)
+uint16_t Koovox_check_frame_tail(const uint8_t* msg, const char* frame_tail, uint16_t size)
 {
 	uint16_t i = 0, j = 0;
 
@@ -62,9 +59,9 @@ bool Koovox_check_frame_tail(const uint8_t* msg, const char* frame_tail, uint16_
 	}
 	
 	if(frame_tail[j] == '\0')
-		return TRUE;
+		return i;
 	else
-		return FALSE;
+		return 0;
 }
 
 
@@ -77,38 +74,11 @@ void Koovox_receive_message(void)
 {
 	if(frame_valid)
 	{
-		uint8_t i = 0;
-		uint8_t size_msg = size;
-		uint8_t* msg = (uint8_t*)malloc(size_msg);
-
-		if(msg == NULL)
-			return;
-
-		disableInterrupts();
-		memcpy(msg, usart_msg, size_msg);
-		size = 0;
+		// message handle
+		Koovox_message_handle(usart_msg, size);
+		size = 0;	
 		frame_valid = FALSE;
-		enableInterrupts();
-		
-		for(; i<size_msg; i++)
-		{
-			if(offset == FRAME_SIZE)
-				offset = 0;
-			
-			rcv_msg[offset++] = msg[i];
-		
-			if(Koovox_check_frame_tail(rcv_msg, FRAME_TAIL, offset))
-			{
-				// message handle
-				Koovox_message_handle(rcv_msg, offset);
-			
-				offset = 0;
-			}
-		}
-		
-		free(msg);
 	}
-
 }
 
 /**
@@ -148,7 +118,6 @@ INTERRUPT_HANDLER(USART1_RX_TIM5_CC_IRQHandler,28)
 	
     USART_ClearITPendingBit (USART1,USART_IT_RXNE);
 
-#if 1
 	if(size >= USART_MSG_SIZE)
 		size = 0;
 	
@@ -156,11 +125,6 @@ INTERRUPT_HANDLER(USART1_RX_TIM5_CC_IRQHandler,28)
 
 	if(size >= FRAME_SIZE)
 		frame_valid = TRUE;
-
-#else
-	USART_SendData8(USART1, USART_ReceiveData8(USART1));
-	while(!USART_GetFlagStatus(USART1, USART_FLAG_TXE));
-#endif
 
 	enableInterrupts();
 }

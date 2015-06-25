@@ -26,7 +26,7 @@ FILE NAME
 
 
 void Init_usart1(uint32_t BaudRate);
-bool Koovox_check_frame_tail(const uint8_t* msg, const char* frame_tail, uint16_t size);
+uint16_t Koovox_check_frame_tail(const uint8_t* msg, const char* frame_tail, uint16_t size);
 void Koovox_send_message(uint8_t* msg, uint8_t len);
 void Koovox_receive_message(void);
 

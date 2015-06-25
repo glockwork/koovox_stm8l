@@ -634,6 +634,10 @@
       </outputs>
       <inputs>
         <tool>
+          <name>BICOMP</name>
+          <file> 36 32 26 38 27 28 39 0 96 93 88 29 31 33 90 30 89</file>
+        </tool>
+        <tool>
           <name>ICCSTM8</name>
           <file> 36 32 26 38 27 28 39 0 96 93 88 29 31 33 90 30 89</file>
         </tool>

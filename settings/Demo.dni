@@ -28,11 +28,13 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=-90205075
+Checksum=-1440768093
 [CallStack]
 ShowArgs=0
 [Disassembly]
 MixedMode=0
+[Breakpoints]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -40,8 +42,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Breakpoints]
-Count=0
 [Aliases]
 A0=_ "D:\STM8\STM8L15x_StdPeriph_Driver\src\stm8l15x_adc.c" ""
 A1=_ "D:\STM8\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c" ""

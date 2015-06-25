@@ -93,6 +93,7 @@ static void Koovox_enable_hb_sample_timer(void)
 	TIM2_Cmd(ENABLE);	
 
 	ad_hb = (uint16_t*)malloc(sizeof(uint16_t)*HR_SAMPLE_FREQUENCE);
+	index = 0;
 }
 
 /**
@@ -145,6 +146,7 @@ uint8_t Koovox_disable_heart_rate(void)
 		Koovox_disable_hb_sensor();
 		Koovox_disable_adc();
 		heart_rate_enable = FALSE;
+		hb_adc_valid = FALSE;
 	}
 	else
 		return PROCESS;
