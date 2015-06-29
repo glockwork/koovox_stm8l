@@ -13,6 +13,7 @@ FILE NAME
 #include "stm8l15x.h"
 
 #define FRAME_MIN_SIZE	4
+#define FRAME_MAX_SIZE	45
 
 typedef enum{
 	START = 0x01,

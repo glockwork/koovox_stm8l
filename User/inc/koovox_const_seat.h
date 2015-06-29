@@ -22,7 +22,7 @@ FILE NAME
 uint8_t Koovox_enable_const_seat(void);
 uint8_t Koovox_disable_const_seat(void);
 void Koovox_const_seat_event(void);
-void Koovox_const_seat(int8_t axis_x, int8_t axis_y, uint32_t index_acc);
+void Koovox_const_seat(int16_t axis_x, int16_t axis_y, int16_t axis_z,uint32_t index_acc);
 
 
 extern bool const_seat_enable;

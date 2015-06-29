@@ -16,12 +16,12 @@ FILE NAME
 #include "koovox_message_handle.h"
 
 
-uint16_t* ad_hb = NULL;
+uint16_t ad_hb[HR_SAMPLE_FREQUENCE] = {0};
 uint16_t index = 0;
 bool hb_adc_valid = FALSE;
 bool heart_rate_enable		= FALSE;
 
-
+#if 0
 /**
 * @brief  Koovox_init_hb_sensor	
 * @param  none
@@ -51,7 +51,6 @@ void Koovox_disable_hb_sensor(void)
 {
 	GPIO_ResetBits(GPIOB, GPIO_Pin_2);
 }
-
 
 /**
 * @brief  Koovox_init_adc
@@ -92,7 +91,6 @@ static void Koovox_enable_hb_sample_timer(void)
 
 	TIM2_Cmd(ENABLE);	
 
-	ad_hb = (uint16_t*)malloc(sizeof(uint16_t)*HR_SAMPLE_FREQUENCE);
 	index = 0;
 }
 
@@ -104,9 +102,8 @@ static void Koovox_enable_hb_sample_timer(void)
 static void Koovox_disable_hb_sample_timer(void)
 {
 	TIM2_Cmd(DISABLE);
-	free(ad_hb);
-	ad_hb = NULL;
 }
+#endif
 
 
 /**
@@ -119,11 +116,24 @@ uint8_t Koovox_enable_heart_rate(void)
 	if(!heart_rate_enable)
 	{
 		// 初始化ADC
-		Koovox_init_adc();
+		CLK_PeripheralClockConfig (CLK_Peripheral_ADC1,ENABLE);//开启ADC/USART时钟
+		
+		ADC_Init (ADC1,ADC_ConversionMode_Single,ADC_Resolution_12Bit,ADC_Prescaler_1);
+		ADC_Cmd(ADC1,ENABLE);
+		ADC_ChannelCmd (ADC1,ADC_Channel_18,ENABLE);	
+
 		// 启动传感器
-		Koovox_enable_hb_sensor();
+		GPIO_SetBits(GPIOB, GPIO_Pin_2);
+
 		// 启动定时器采集数据
-		Koovox_enable_hb_sample_timer();
+		CLK_PeripheralClockConfig(CLK_Peripheral_TIM2, ENABLE);
+		TIM2_TimeBaseInit(TIM2_Prescaler_64, TIM2_CounterMode_Up,0x186A);	// 50ms
+		TIM2_ClearFlag(TIM2_FLAG_Update);
+		TIM2_ITConfig(TIM2_IT_Update, ENABLE);
+		
+		TIM2_Cmd(ENABLE);	
+		
+		index = 0;
 		
 		heart_rate_enable = TRUE;
 	}
@@ -142,9 +152,16 @@ uint8_t Koovox_disable_heart_rate(void)
 {
 	if(heart_rate_enable)
 	{
-		Koovox_disable_hb_sample_timer();
-		Koovox_disable_hb_sensor();
-		Koovox_disable_adc();
+		// 关闭心率采样定时器
+		TIM2_Cmd(DISABLE);
+
+		// 关闭心率传感器
+		GPIO_ResetBits(GPIOB, GPIO_Pin_2);
+
+		// 关闭ADC
+		ADC_ChannelCmd (ADC1,ADC_Channel_18,DISABLE);		
+		ADC_Cmd(ADC1, DISABLE);
+		
 		heart_rate_enable = FALSE;
 		hb_adc_valid = FALSE;
 	}
@@ -166,19 +183,18 @@ void Koovox_send_hb_adc_value(void)
 	{
 		// send heart rate adc value to csr8670
 		uint8_t length = 2*HR_SAMPLE_FREQUENCE;
-		uint16_t* value = (uint16_t*)malloc(length);
-
-		if(value == NULL)
-			return;
+		uint16_t value[HR_SAMPLE_FREQUENCE] = {0};
+		uint8_t i = 0;
 
 		disableInterrupts();
-		memcpy(value, ad_hb, length);
+		for(; i < HR_SAMPLE_FREQUENCE; i++)
+			value[i] = ad_hb[i];
+		
 		index = 0;
 		enableInterrupts();
 
 		Koovox_fill_and_send_packet(ENV , HEART_RATE, (uint8_t*)value, length);
 	
-		free(value);
 		hb_adc_valid = FALSE;
 	}
 }

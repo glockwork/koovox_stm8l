@@ -7,8 +7,8 @@ FILE NAME
 
 */
 
-#include <stdlib.h>
-#include <string.h>
+//#include <stdlib.h>
+//#include <string.h>
 
 #include "koovox_const_seat.h"
 #include "koovox_message_handle.h"
@@ -84,12 +84,14 @@ void Koovox_const_seat_event(void)
 * @param none
 * @retval none
 */
-void Koovox_const_seat(int8_t axis_x, int8_t axis_y, uint32_t index_acc)
+void Koovox_const_seat(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t index_acc)
 {
 	uint16_t curr_value = 0;
 	uint32_t time_curr = curr_time;
 
-	curr_value = axis_x*axis_x + axis_y*axis_y;
+	curr_value = axis_x*axis_x ;
+	curr_value += axis_y*axis_y;
+	curr_value += axis_z*axis_z;
 
 	if((curr_value > CONST_SEAT_MAX_THRESHOLD) || (curr_value < CONST_SEAT_MIN_THRESHOLD))
 	{

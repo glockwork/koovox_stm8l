@@ -58,15 +58,18 @@ uint8_t Koovox_disable_head_action(void)
 * @param none
 * @retval none
 */
-void Koovox_head_action(uint8_t axis_x, uint8_t axis_y, uint8_t axis_z)
+void Koovox_head_action(uint16_t axis_x, uint16_t axis_y, uint16_t axis_z)
 {
-	uint8_t value[3] = {0};
+	uint8_t value[6] = {0};
+
+	value[0] = axis_x & 0xff;
+	value[1] = (axis_x >> 8) & 0xff;
+	value[2] = axis_y & 0xff;
+	value[3] = (axis_y >> 8) & 0xff;
+	value[4] = axis_z & 0xff;
+	value[5] = (axis_z >> 8) & 0xff;
 	
-	value[0] = axis_x;
-	value[1] = axis_y;
-	value[2] = axis_z;
-	
-	Koovox_fill_and_send_packet(ENV, HEAD_ACTION, value, 3);
+	Koovox_fill_and_send_packet(ENV, HEAD_ACTION, value, 6);
 }
 
 

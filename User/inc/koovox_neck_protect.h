@@ -15,7 +15,7 @@ FILE NAME
 uint8_t Koovox_enable_neck_protect(void);
 uint8_t Koovox_disable_neck_protect(void);
 
-void Koovox_neck_protect(int16_t acc_x, int16_t acc_y, int16_t acc_z, int8_t g_x, int8_t g_y, int8_t g_z);
+void Koovox_neck_protect(int16_t acc_x, int16_t acc_y, int16_t acc_z, int16_t g_x, int16_t g_y, int16_t g_z);
 void Koovox_neck_protect_event(uint8_t value);
 
 

@@ -8,8 +8,8 @@ FILE NAME
  
 */
 
-#include <stdlib.h>
-#include <string.h>
+//#include <stdlib.h>
+//#include <string.h>
 
 #include "koovox_lis3dh_sensor.h"
 #include "koovox_uart.h"
@@ -29,6 +29,7 @@ FILE NAME
 uint32_t index_acc = 0;
 uint32_t curr_time  = 0;
 
+#if 0
 /** @defgroup koovox_lis3dh_sensor_Private_Functions ****/
 
 /**
@@ -41,9 +42,16 @@ static void LIS3DH_LowLevel_Init(void)
   /*!< LIS3DH_I2C Periph clock enable */
   CLK_PeripheralClockConfig(LIS3DH_I2C_CLK, ENABLE);
 
+  /*!< Configure LIS3DH_I2C pins: SCL */
+  GPIO_Init(LIS3DH_I2C_SCL_GPIO_PORT, LIS3DH_I2C_SCL_PIN, GPIO_Mode_In_PU_No_IT);
+
+  /*!< Configure LIS3DH_I2C pins: SDA */
+  GPIO_Init(LIS3DH_I2C_SDA_GPIO_PORT, LIS3DH_I2C_SDA_PIN, GPIO_Mode_In_PU_No_IT);
+
   /* Configure PC.4 as Input pull-up, used as TemperatureSensor_INT */
   GPIO_Init(LIS3DH_I2C_SMBUSALERT_GPIO_PORT, LIS3DH_I2C_SMBUSALERT_PIN, GPIO_Mode_In_FL_No_IT);
 }
+
 
 /**
   * @brief  DeInitializes the LIS3DH_I2C.
@@ -99,12 +107,10 @@ void LIS3DH_Init(void)
   I2C_Init(LIS3DH_I2C, LIS3DH_I2C_SPEED, 0x00, I2C_Mode_SMBusHost,
            I2C_DutyCycle_2, I2C_Ack_Enable, I2C_AcknowledgedAddress_7bit);
 
-  /*!< Enable SMBus Alert interrupt */
-  I2C_ITConfig(LIS3DH_I2C, I2C_IT_ERR, ENABLE);
-
   /*!< LIS3DH_I2C Init */
   I2C_Cmd(LIS3DH_I2C, ENABLE);
 }
+#endif
 
 
 /**
@@ -273,7 +279,7 @@ void LIS3DH_WriteReg(uint8_t RegName, uint8_t RegValue)
   *		data_len: the length of receive data
   * @retval None.
   */
-void LIS3DH_ReadAccData(uint8_t* data_buff, uint16_t data_len)
+void LIS3DH_ReadAccData(uint8_t regAdrress, uint8_t* data_buff, uint16_t data_len)
 {
 
   uint16_t i = 0;
@@ -304,7 +310,7 @@ void LIS3DH_ReadAccData(uint8_t* data_buff, uint16_t data_len)
   }
 
   /* Send the temperature register data pointer */
-  I2C_SendData(LIS3DH_I2C, LIS3DH_OUT_MUL);
+  I2C_SendData(LIS3DH_I2C, regAdrress);
   
   I2C_TimeOut = I2C_TIMEOUT;
   
@@ -365,7 +371,6 @@ void LIS3DH_ReadAccData(uint8_t* data_buff, uint16_t data_len)
 
 }
 
-
 /**
   * @brief  Initializes the LIS3DH config register.
   * @param  None
@@ -388,8 +393,9 @@ void LIS3DH_Init_Config(void)
 void LIS3DH_status(void)
 {
 	uint8_t value = 0;
-	
-	if(LIS3DH_ReadReg(WHO_AM_I) == 0x33)
+
+	LIS3DH_ReadAccData(WHO_AM_I, &value, 1);
+	if(value == 0x33)
 	{
 		// i2c is ok
 		value = LIS3DH_TEST_SUC;
@@ -398,6 +404,7 @@ void LIS3DH_status(void)
 	{
 		// i2c is bad
 		value = LIS3DH_TEST_FAIL;
+		
 	}
 	
 	Koovox_fill_and_send_packet(ENV, I2C_TEST, &value, 1);
@@ -485,10 +492,12 @@ static void Koovox_convert_acc_value(uint8_t* ad_data, int16_t* axis_x, int16_t*
 bool Koovox_read_acc_value(uint8_t* data, uint16_t size_data)
 {
 	bool result = TRUE;
+	uint8_t ret = 0;
 	
-	if(LIS3DH_ReadReg(LIS3DH_STATUS_REG))
+	LIS3DH_ReadAccData(LIS3DH_STATUS_REG, &ret, 1);
+	if(ret >= 0x0f)
 	{
-		LIS3DH_ReadAccData(data, size_data);
+		LIS3DH_ReadAccData(LIS3DH_OUT_MUL, data, size_data);
 	}
 	else
 	{
@@ -517,33 +526,27 @@ void Koovox_calc_accelerate(void)
 	{
 		
 		int16_t axis_x = 0, axis_y = 0, axis_z = 0;
-		int8_t acc_x , acc_y, acc_z;
+		int16_t acc_x , acc_y, acc_z;
 			
 		// 将原始AD采样值转换为重力加速度值	(加速度的1000倍)
 		Koovox_convert_acc_value(acc_data, &axis_x, &axis_y, &axis_z);
 
+#if 0
 		acc_x = Koovox_get_acc_value(axis_x);
 		acc_y = Koovox_get_acc_value(axis_y);
-		acc_z = Koovox_get_acc_value(axis_z);                
+		acc_z = Koovox_get_acc_value(axis_z);  
+#else
+		acc_x = axis_x / 10;
+		acc_y = axis_y / 10;
+		acc_z = axis_z / 10;
+#endif
 
 		index_acc++;
-
-#if 1
-		{
-			uint8_t value[3] = {0};
-			
-			value[0] = acc_x;
-			value[1] = acc_y;
-			value[2] = acc_z;
-			
-			Koovox_fill_and_send_packet(ENV, HEAD_ACTION, value, 3);
-		}
-#endif
 		
 		// 计步功能
 		if(step_count_enable)
 		{
-			//Koovox_step_count(acc_x, acc_y, index_acc);
+			Koovox_step_count(acc_x, acc_y, acc_z,index_acc);
 		}
 
 		// 颈椎保护
@@ -555,13 +558,13 @@ void Koovox_calc_accelerate(void)
 		// 久坐提醒
 		if(const_seat_enable)
 		{
-			Koovox_const_seat(acc_x, acc_y, index_acc);
+			Koovox_const_seat(acc_x, acc_y, acc_z,index_acc);
 		}
 
 		// 头部动作识别
 		if(head_action_enable)
 		{
-			Koovox_head_action(acc_x, acc_x, acc_x);
+			Koovox_head_action(acc_x, acc_y, acc_z);
 		}		
 	}
 }
@@ -601,6 +604,7 @@ INTERRUPT_HANDLER(TIM3_UPD_OVF_TRG_BRK_USART3_TX_IRQHandler,21)
 
 }
 
+#if 0
 /**
   * @brief I2C1 / SPI2 Interrupt routine.
   * @param  None
@@ -613,7 +617,7 @@ INTERRUPT_HANDLER(I2C1_SPI2_IRQHandler,29)
 	LIS3DH_DeInit();
 	LIS3DH_Init();
 }
-
+#endif
 
 
 

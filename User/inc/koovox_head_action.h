@@ -14,7 +14,7 @@ FILE NAME
 
 uint8_t Koovox_enable_head_action(void);
 uint8_t Koovox_disable_head_action(void);
-void Koovox_head_action(uint8_t axis_x, uint8_t axis_y, uint8_t axis_z);
+void Koovox_head_action(uint16_t axis_x, uint16_t axis_y, uint16_t axis_z);
 
 
 extern bool head_action_enable;

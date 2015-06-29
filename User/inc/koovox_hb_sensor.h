@@ -14,11 +14,11 @@ FILE NAME
 
 #define HR_SAMPLE_FREQUENCE		20
 
-void Koovox_init_hb_sensor(void);
-void Koovox_send_hb_adc_value(void);
+//void Koovox_init_hb_sensor(void);
 uint8_t Koovox_enable_heart_rate(void);
 uint8_t Koovox_disable_heart_rate(void);
 
+void Koovox_send_hb_adc_value(void);
 
 #endif
 

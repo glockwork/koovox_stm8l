@@ -35,7 +35,11 @@ uint8_t Koovox_enable_step_count(void)
 	if(!step_count_enable)
 	{
 		step_count_enable = TRUE;
-		LIS3DH_Init_Config();
+		// set CTRL_REG1
+		LIS3DH_WriteReg(LIS3DH_CTRL_REG1, LIS3DH_CTRL_REG1_VALUE);
+		
+		// set CTRL_REG4
+		LIS3DH_WriteReg(LIS3DH_CTRL_REG4, LIS3DH_CTRL_REG4_VALUE);
 	}
 	else
 		return PROCESS;
@@ -70,18 +74,22 @@ uint8_t Koovox_disable_step_count(void)
 *		index_acc:
 * @retval none
 */
-void Koovox_step_count(int8_t axis_x, int8_t axis_y, uint32_t index_acc)
+void Koovox_step_count(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t index_acc)
 {
-	uint16_t curr_value = 0;
+	uint16_t sum_value = 0;
 
-	curr_value = axis_x*axis_x + axis_y*axis_y;
+	sum_value = axis_x*axis_x;
+	sum_value += axis_y*axis_y;
+	sum_value += axis_z*axis_z;
 
-	if((curr_value > STEP_COUNT_MAX_THRESHOLD) || (curr_value < STEP_COUNT_MIN_THRESHOLD))
+	sum_value /= 100;
+
+	//if((sum_value > STEP_COUNT_MAX_THRESHOLD) || (sum_value < STEP_COUNT_MIN_THRESHOLD))
 	{
 		uint8_t value[6] = {0};
 
-		value[0] = curr_value & 0xff;
-		value[1] = (curr_value >> 8) & 0xff;
+		value[0] = sum_value & 0xff;
+		value[1] = (sum_value >> 8) & 0xff;
 		value[2] = index_acc & 0xff;
 		value[3] = (index_acc >> 8) & 0xff;
 		value[4] = (index_acc >> 16) & 0xff;

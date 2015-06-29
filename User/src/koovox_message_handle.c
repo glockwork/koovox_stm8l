@@ -180,24 +180,26 @@ void Koovox_message_handle(uint8_t* msg, uint8_t size)
 */
 void Koovox_fill_and_send_packet(uint8_t cmd, uint8_t obj, uint8_t* value, uint8_t size_value)
 {
-	uint8_t length = sizeof(Usart_msg) + (size_value ? (size_value - 1): 0);
-	Usart_msg *msg = (Usart_msg *)malloc(length);
-
-	if(msg == NULL)
-		return;
+	uint8_t msg[FRAME_MAX_SIZE] = {0};
+	uint8_t i = 0;
 
 	// fill the packet
-	msg->cmd = cmd;
-	msg->obj = obj;
-	msg->len = size_value;
+	msg[i++] = cmd;
+	msg[i++] = obj;
+	msg[i++] = size_value;
+
 	if(value)
-		memmove(msg->data, value, size_value);
+	{
+		uint8_t j = 0;
+		for(; j<size_value; j++ )
+			msg[i++] = value[j];
+	}
 	else
-		msg->data[0] = 0x0;
+		msg[i++] = 0x0;
 
 	// send the packet
-	Koovox_send_message((uint8_t*)msg, length);
-	free(msg);
+	Koovox_send_message(msg, i);
+	
 }
 
 

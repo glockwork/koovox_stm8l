@@ -86,7 +86,7 @@ uint8_t Koovox_disable_neck_protect(void)
 * @param 
 * @retval none
 */
-void Koovox_neck_protect(int16_t axis_x, int16_t axis_y, int16_t axis_z, int8_t g_x, int8_t g_y, int8_t g_z)
+void Koovox_neck_protect(int16_t axis_x, int16_t axis_y, int16_t axis_z, int16_t g_x, int16_t g_y, int16_t g_z)
 {
 	uint32_t time_curr = curr_time;
 		
