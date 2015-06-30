@@ -30,7 +30,8 @@ FILE NAME
 #define LIS3DH_I2C_SPEED      	100000 /*!< I2C Speed 100kHz*/
 
 // address of th accelerate sensor
-#define LIS3DH_ADDR			0x30	
+#define LIS3DH_ADDR			0x30
+
 
 // WHO AM I
 #define WHO_AM_I				0x0f
@@ -81,9 +82,8 @@ FILE NAME
 
 
 /** @defgroup koovox_lis3dh_sensor_Private_Functions ****/
-//void LIS3DH_Init(void);
-//void LIS3DH_DeInit(void);
-uint8_t LIS3DH_ReadReg(uint8_t RegName);
+void LIS3DH_Init(void);
+void LIS3DH_DeInit(void);
 void LIS3DH_WriteReg(uint8_t RegName, uint8_t RegValue);
 void LIS3DH_ReadAccData(uint8_t regAdrress, uint8_t* data_buff, uint16_t data_len);
 void LIS3DH_Init_Config(void);

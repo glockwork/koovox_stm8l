@@ -24,7 +24,7 @@
     <Windows>
       
       
-    <Wnd2>
+    <Wnd0>
         <Tabs>
           <Tab>
             <Identity>TabID-17957-4308</Identity>
@@ -36,7 +36,7 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
         <Tabs>
           <Tab>
             <Identity>TabID-30043-4491</Identity>
@@ -46,20 +46,20 @@
           </Tab>
         <Tab><Identity>TabID-4162-29321</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd3></Windows>
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_message_handle.c</Filename><XPos>0</XPos><YPos>99</YPos><SelStart>3429</SelStart><SelEnd>3429</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_usart.c</Filename><XPos>0</XPos><YPos>1005</YPos><SelStart>38383</SelStart><SelEnd>38383</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_lis3dh_sensor.c</Filename><XPos>0</XPos><YPos>137</YPos><SelStart>3999</SelStart><SelEnd>3999</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_hb_sensor.c</Filename><XPos>0</XPos><YPos>85</YPos><SelStart>2045</SelStart><SelEnd>2045</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_uart.c</Filename><XPos>0</XPos><YPos>84</YPos><SelStart>1732</SelStart><SelEnd>1732</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c</Filename><XPos>0</XPos><YPos>1057</YPos><SelStart>36835</SelStart><SelEnd>36835</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\main.c</Filename><XPos>0</XPos><YPos>26</YPos><SelStart>1227</SelStart><SelEnd>1227</SelEnd></Tab><ActiveTab>6</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_clk.c</Filename><XPos>0</XPos><YPos>145</YPos><SelStart>6987</SelStart><SelEnd>6987</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_message_handle.c</Filename><XPos>0</XPos><YPos>181</YPos><SelStart>3392</SelStart><SelEnd>3392</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_usart.c</Filename><XPos>0</XPos><YPos>1005</YPos><SelStart>38383</SelStart><SelEnd>38383</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_lis3dh_sensor.c</Filename><XPos>0</XPos><YPos>479</YPos><SelStart>10609</SelStart><SelEnd>10609</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_hb_sensor.c</Filename><XPos>0</XPos><YPos>186</YPos><SelStart>3664</SelStart><SelEnd>3664</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_uart.c</Filename><XPos>0</XPos><YPos>84</YPos><SelStart>1904</SelStart><SelEnd>1904</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c</Filename><XPos>0</XPos><YPos>1041</YPos><SelStart>36401</SelStart><SelEnd>36401</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\main.c</Filename><XPos>0</XPos><YPos>8</YPos><SelStart>404</SelStart><SelEnd>404</SelEnd></Tab><ActiveTab>6</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_clk.c</Filename><XPos>0</XPos><YPos>145</YPos><SelStart>6987</SelStart><SelEnd>6987</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\User\src\koovox_step_count.c</Filename><XPos>0</XPos><YPos>77</YPos><SelStart>1905</SelStart><SelEnd>1905</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-00c530b0><key>iaridepm.enu1</key></Toolbar-00c530b0></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>781</Bottom><Right>627</Right><x>-2</x><y>-2</y><xscreen>105</xscreen><yscreen>133</yscreen><sizeHorzCX>54688</sizeHorzCX><sizeHorzCY>133400</sizeHorzCY><sizeVertCX>327604</sizeVertCX><sizeVertCY>785356</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>171</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>173</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>173521</sizeHorzCY><sizeVertCX>54688</sizeVertCX><sizeVertCY>133400</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-037b30b0><key>iaridepm.enu1</key></Toolbar-037b30b0></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>781</Bottom><Right>627</Right><x>-2</x><y>-2</y><xscreen>105</xscreen><yscreen>133</yscreen><sizeHorzCX>54688</sizeHorzCX><sizeHorzCY>133400</sizeHorzCY><sizeVertCX>327604</sizeVertCX><sizeVertCY>785356</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>171</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>173</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>173521</sizeHorzCY><sizeVertCX>54688</sizeVertCX><sizeVertCY>133400</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

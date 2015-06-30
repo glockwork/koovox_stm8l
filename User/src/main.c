@@ -33,17 +33,10 @@ int main( void )
 
 
 	/*********** I2C 初始化 ***************/
+	LIS3DH_Init();
 
-	/*!< LIS3DH_I2C Periph clock enable */
-	CLK_PeripheralClockConfig(LIS3DH_I2C_CLK, ENABLE);
-		
-	/* Configure PC.4 as Input pull-up, used as TemperatureSensor_INT */
-	GPIO_Init(LIS3DH_I2C_SMBUSALERT_GPIO_PORT, LIS3DH_I2C_SMBUSALERT_PIN, GPIO_Mode_In_FL_No_IT);
-
-	I2C_DeInit(LIS3DH_I2C);	
-	I2C_Init(LIS3DH_I2C, LIS3DH_I2C_SPEED, 0x00, I2C_Mode_SMBusHost,
-			 I2C_DutyCycle_2, I2C_Ack_Enable, I2C_AcknowledgedAddress_7bit);
-	I2C_Cmd(LIS3DH_I2C, ENABLE);
+	/**************** 启动计时定时器 ***************/
+	Koovox_enable_time_counter();
 	
 	while(1)
 	{

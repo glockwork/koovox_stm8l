@@ -35,11 +35,8 @@ uint8_t Koovox_enable_step_count(void)
 	if(!step_count_enable)
 	{
 		step_count_enable = TRUE;
-		// set CTRL_REG1
-		LIS3DH_WriteReg(LIS3DH_CTRL_REG1, LIS3DH_CTRL_REG1_VALUE);
 		
-		// set CTRL_REG4
-		LIS3DH_WriteReg(LIS3DH_CTRL_REG4, LIS3DH_CTRL_REG4_VALUE);
+		LIS3DH_Init_Config();
 	}
 	else
 		return PROCESS;
@@ -84,7 +81,7 @@ void Koovox_step_count(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t 
 
 	sum_value /= 100;
 
-	//if((sum_value > STEP_COUNT_MAX_THRESHOLD) || (sum_value < STEP_COUNT_MIN_THRESHOLD))
+	if((sum_value > STEP_COUNT_MAX_THRESHOLD) || (sum_value < STEP_COUNT_MIN_THRESHOLD))
 	{
 		uint8_t value[6] = {0};
 
