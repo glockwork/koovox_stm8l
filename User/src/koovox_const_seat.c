@@ -14,6 +14,7 @@ FILE NAME
 #include "koovox_message_handle.h"
 #include "koovox_uart.h"
 #include "koovox_lis3dh_sensor.h"
+#include "koovox_step_count.h"
 
 
 #define CONST_SEAT_ALARM_TIME		((uint16_t)300)	// 5min
@@ -93,6 +94,8 @@ void Koovox_const_seat(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t 
 	curr_value += axis_y*axis_y;
 	curr_value += axis_z*axis_z;
 
+	curr_value /= 100;
+
 	if((curr_value > CONST_SEAT_MAX_THRESHOLD) || (curr_value < CONST_SEAT_MIN_THRESHOLD))
 	{
 		uint8_t value[6] = {0};
@@ -119,7 +122,7 @@ void Koovox_const_seat(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t 
 		const_seat_count = time_curr;
 	}
 
-	
+	Koovox_judge_walk_status();
 }
 
 

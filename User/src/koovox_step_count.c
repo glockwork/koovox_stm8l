@@ -95,6 +95,7 @@ void Koovox_step_count(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t 
 		// send curr_value and index_acc to csr8670
 		Koovox_fill_and_send_packet(ENV, STEP_COUNT, value, 6);
 	}
+		
 }
 
 
@@ -105,17 +106,27 @@ void Koovox_step_count(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t 
 * @retval none
 */
 void Koovox_step_count_event(void)
-{
-	uint32_t time_curr = curr_time;
-	
+{	
 	if(step_count == 0)
 	{
-		step_time_cnt = time_curr;
+		step_time_cnt = curr_time;
 	}
 
 	step_count++;
+}
 
-	if(time_curr - step_time_cnt == STEP_STATE_CHECK_TIME)
+
+/**
+* @brief Koovox_step_count_event
+* @param  
+* 		value: 
+* @retval none
+*/
+void Koovox_judge_walk_status(void)
+{
+	uint32_t time_curr = curr_time;
+
+	if(time_curr - step_time_cnt >= STEP_STATE_CHECK_TIME)
 	{
 		// 走路状态判断
 		if(step_count >= STEP_THRESHOLD)
@@ -123,13 +134,11 @@ void Koovox_step_count_event(void)
 			// 清零颈椎计时和久坐计时
 			neck_protect_count = time_curr;
 			const_seat_count = time_curr;
-
-			// 重新判断走路状态
-			step_count = 0;
 		}
+
+		// 重新判断走路状态
+		step_count = 0;
 	}
-
 }
-
 
 

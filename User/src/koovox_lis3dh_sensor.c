@@ -391,52 +391,56 @@ bool Koovox_read_acc_value(uint8_t* data, uint16_t size_data)
 */
 void Koovox_calc_accelerate(void)
 {
-	uint8_t acc_data[ACC_READ_SIZE] = {0};
 
 	if(!step_count_enable)
 	{
-		//return;
+		return;
 	}
 
-	if(Koovox_read_acc_value(acc_data, ACC_READ_SIZE))
 	{
+		uint8_t acc_data[ACC_READ_SIZE] = {0};
 		
-		int16_t axis_x = 0, axis_y = 0, axis_z = 0;
-		int16_t acc_x , acc_y, acc_z;
+		if(Koovox_read_acc_value(acc_data, ACC_READ_SIZE))
+		{
 			
-		// 将原始AD采样值转换为重力加速度值	(加速度的1000倍)
-		Koovox_convert_acc_value(acc_data, &axis_x, &axis_y, &axis_z);
+			int16_t axis_x = 0, axis_y = 0, axis_z = 0;
+			int16_t acc_x , acc_y, acc_z;
+				
+			// 将原始AD采样值转换为重力加速度值	(加速度的1000倍)
+			Koovox_convert_acc_value(acc_data, &axis_x, &axis_y, &axis_z);
 
-		acc_x = axis_x / 10;
-		acc_y = axis_y / 10;
-		acc_z = axis_z / 10;
+			acc_x = axis_x / 10;
+			acc_y = axis_y / 10;
+			acc_z = axis_z / 10;
 
-		index_acc++;
-		
-		// 计步功能
-		if(step_count_enable)
-		{
-			Koovox_step_count(acc_x, acc_y, acc_z,index_acc);
+			index_acc++;
+			
+			// 计步功能
+			if(step_count_enable)
+			{
+				Koovox_step_count(acc_x, acc_y, acc_z,index_acc);
+			}
+
+			// 颈椎保护
+			if(neck_protect_enable)
+			{
+				Koovox_neck_protect(axis_x, axis_y, axis_z, acc_x, acc_y, acc_z);
+			}
+
+			// 久坐提醒
+			if(const_seat_enable)
+			{
+				Koovox_const_seat(acc_x, acc_y, acc_z,index_acc);
+			}
+
+			// 头部动作识别
+			if(head_action_enable)
+			{
+				Koovox_head_action(acc_x, acc_y, acc_z);
+			}		
 		}
-
-		// 颈椎保护
-		if(neck_protect_enable)
-		{
-			Koovox_neck_protect(axis_x, axis_y, axis_z, acc_x, acc_y, acc_z);
-		}
-
-		// 久坐提醒
-		if(const_seat_enable)
-		{
-			Koovox_const_seat(acc_x, acc_y, acc_z,index_acc);
-		}
-
-		// 头部动作识别
-		if(head_action_enable)
-		{
-			Koovox_head_action(acc_x, acc_y, acc_z);
-		}		
 	}
+
 }
 
 
