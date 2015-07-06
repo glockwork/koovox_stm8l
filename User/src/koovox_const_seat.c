@@ -100,12 +100,17 @@ void Koovox_const_seat(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t 
 	{
 		uint8_t value[6] = {0};
 
+#if 1
+		//Koovox_fill_value_param(value, curr_value, 0xffff, 0xffff, index_acc);
+		Koovox_fill_three_param(value, curr_value, 0x7fff,index_acc);
+#else
 		value[0] = curr_value & 0xff;
 		value[1] = (curr_value >> 8) & 0xff;
 		value[2] = index_acc & 0xff;
 		value[3] = (index_acc >> 8) & 0xff;
 		value[4] = (index_acc >> 16) & 0xff;
 		value[5] = (index_acc >> 24) & 0xff;
+#endif
 		
 		// send curr_value and index_acc to csr8670
 		Koovox_fill_and_send_packet(ENV, CONST_SEAT, value, 6);

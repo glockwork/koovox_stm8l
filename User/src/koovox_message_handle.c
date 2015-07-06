@@ -58,8 +58,12 @@ void Koovox_message_handle(uint8_t* msg, uint8_t size)
 				ret = Koovox_enable_neck_protect();
 				break;
 
-			case HEAD_ACTION:		// 启动头部姿态识别
-				ret = Koovox_enable_head_action();
+			case NOD_HEAD:		// 启动点头姿态识别
+				ret = Koovox_enable_nod_head();
+				break;
+
+			case SHAKE_HEAD:	// 启动摇头姿态识别
+				ret = Koovox_enable_shake_head();
 				break;
 
 			case STEP_COUNT:		// 启动计步功能
@@ -96,8 +100,12 @@ void Koovox_message_handle(uint8_t* msg, uint8_t size)
 				ret = Koovox_disable_neck_protect();
 				break;
 
-			case HEAD_ACTION:		// 停止头部姿态识别
-				ret = Koovox_disable_head_action();
+			case NOD_HEAD:		// 停止头部姿态识别
+				ret = Koovox_disable_nod_head();
+				break;
+
+			case SHAKE_HEAD:	// 停止摇头姿态识别
+				ret = Koovox_disable_shake_head();
 				break;
 
 			case STEP_COUNT:		// 停止计步功能
@@ -202,5 +210,25 @@ void Koovox_fill_and_send_packet(uint8_t cmd, uint8_t obj, uint8_t* value, uint8
 	
 }
 
+
+void Koovox_fill_three_param(uint8_t* value, uint16_t param1, uint16_t param2, uint32_t param3)
+{
+	uint8_t i = 0;
+
+	value[i++] = param1 & 0xff;
+	value[i++] = (param1 >> 8) & 0xff;
+
+	if(param2 != 0x7fff)
+	{
+		value[i++] = param2 & 0xff;
+		value[i++] = (param2 >> 8) & 0xff;
+	}
+
+	value[i++] = param3 & 0xff;
+	value[i++] = (param3 >> 8) & 0xff;
+	value[i++] = (param3 >> 16) & 0xff;
+	value[i++] = (param3 >> 24) & 0xff;
+	
+}
 
 

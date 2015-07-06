@@ -28,13 +28,13 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=1269889702
+Checksum=770348687
 [CallStack]
 ShowArgs=0
 [Disassembly]
 MixedMode=0
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\User\src\koovox_step_count.c}.112.3" 1 0 0 0 "" 0 ""
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\User\src\koovox_step_count.c}.112.2" 1 0 0 0 "" 0 ""
 Count=1
 [Log file]
 LoggingEnabled=_ 0

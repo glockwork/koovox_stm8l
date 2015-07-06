@@ -433,11 +433,17 @@ void Koovox_calc_accelerate(void)
 				Koovox_const_seat(acc_x, acc_y, acc_z,index_acc);
 			}
 
-			// 头部动作识别
-			if(head_action_enable)
+			// 点头动作识别
+			if(nod_head_enable)
 			{
-				Koovox_head_action(acc_x, acc_y, acc_z);
-			}		
+				Koovox_nod_head(acc_x, acc_y, index_acc);
+			}	
+
+			// 摇头动作识别
+			if(shake_head_enable)
+			{
+				Koovox_shake_head(acc_x, acc_z, index_acc);
+			}
 		}
 	}
 

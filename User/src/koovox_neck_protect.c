@@ -109,14 +109,14 @@ void Koovox_neck_protect(int16_t axis_x, int16_t axis_y, int16_t axis_z, int16_t
 		if((sum <= HIGH_LEVEL_VALUE)&&(sum >= LOW_LEVEL_VALUE))
 		{
 			uint8_t value[6] = {0};
-
+			
 			value[0] = axis_x & 0xff;
 			value[1] = (axis_x >> 8) & 0xff;
 			value[2] = axis_y & 0xff;
 			value[3] = (axis_y >> 8) & 0xff;
 			value[4] = axis_z & 0xff;
 			value[5] = (axis_z >> 8) & 0xff;
-
+			
 			Koovox_fill_and_send_packet(ENV, NECK_PROTECT, value, 6);
 		}
 
