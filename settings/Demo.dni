@@ -28,14 +28,11 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=770348687
+Checksum=1373663174
 [CallStack]
 ShowArgs=0
 [Disassembly]
 MixedMode=0
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\User\src\koovox_step_count.c}.112.2" 1 0 0 0 "" 0 ""
-Count=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -43,6 +40,9 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\User\src\koovox_step_count.c}.112.2" 0 0 0 0 "" 0 ""
+Count=1
 [Aliases]
 A0=_ "D:\STM8\STM8L15x_StdPeriph_Driver\src\stm8l15x_adc.c" ""
 A1=_ "D:\STM8\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c" ""

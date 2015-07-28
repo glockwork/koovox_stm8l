@@ -391,6 +391,7 @@ bool Koovox_read_acc_value(uint8_t* data, uint16_t size_data)
 */
 void Koovox_calc_accelerate(void)
 {
+	step_count_enable = TRUE;
 
 	if(!step_count_enable)
 	{

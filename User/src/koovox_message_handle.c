@@ -48,6 +48,7 @@ void Koovox_message_handle(uint8_t* msg, uint8_t size)
 			switch(message->obj)
 			{
 			case SYSTEM:
+				wfe();
 				break;
 				
 			case CONST_SEAT:		// Æô¶¯¾Ã×ø¹¦ÄÜ

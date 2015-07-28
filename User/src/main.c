@@ -18,10 +18,12 @@ FILE NAME
 
 int main( void )
 {
+	uint32_t time = 0;
+
 	/*********** 初始化内部系统时钟 **********/
     CLK_HSICmd(ENABLE);//开始内部高频RC
     CLK_SYSCLKSourceConfig(CLK_SYSCLKSource_HSI);//HSI为系统时钟
-    CLK_SYSCLKDivConfig(CLK_SYSCLKDiv_2);	/* 8Mhz 主频 */
+    CLK_SYSCLKDivConfig(CLK_SYSCLKDiv_4);	/* 8Mhz 主频 */
 
 	enableInterrupts();	
 
@@ -30,7 +32,6 @@ int main( void )
 
 	/*********** 初始化hb_sensor ***************/
 	GPIO_Init(GPIOB, GPIO_Pin_2, GPIO_Mode_Out_PP_Low_Slow);
-
 
 	/*********** I2C 初始化 ***************/
 	LIS3DH_Init();
@@ -49,9 +50,15 @@ int main( void )
 
 		// 发送hb_sensor原始数据到CSR8670
 		Koovox_send_hb_adc_value();
-		
-	}
 
+		// 心跳包唤醒csr8670
+		if(curr_time - time >= 30)
+		{
+			time = curr_time;
+			Koovox_fill_and_send_packet(ENV , SYSTEM, 0, 0);
+		}
+
+	}
 }
 
 

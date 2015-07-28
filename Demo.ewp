@@ -2315,6 +2315,9 @@
       <file>
         <name>$PROJ_DIR$\STM8L15x_StdPeriph_Driver\inc\stm8l15x_usart.h</name>
       </file>
+      <file>
+        <name>$PROJ_DIR$\STM8L15x_StdPeriph_Driver\inc\stm8l15x_wfe.h</name>
+      </file>
     </group>
     <group>
       <name>src</name>
@@ -2344,6 +2347,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_usart.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\STM8L15x_StdPeriph_Driver\src\stm8l15x_wfe.c</name>
       </file>
     </group>
   </group>

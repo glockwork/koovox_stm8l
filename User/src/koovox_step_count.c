@@ -73,26 +73,21 @@ uint8_t Koovox_disable_step_count(void)
 */
 void Koovox_step_count(int16_t axis_x, int16_t axis_y, int16_t axis_z, uint32_t index_acc)
 {
-	uint16_t sum_value = 0;
+	uint16_t sum_value = 0, step_value = 0;
 
 	sum_value = axis_x*axis_x;
 	sum_value += axis_y*axis_y;
+	step_value = sum_value;
 	sum_value += axis_z*axis_z;
 
 	sum_value /= 100;
+	step_value /= 100;
 
 	if((sum_value > STEP_COUNT_MAX_THRESHOLD) || (sum_value < STEP_COUNT_MIN_THRESHOLD))
 	{
 		uint8_t value[6] = {0};
 
-		//Koovox_fill_value_param(value, sum_value, 0xffff, 0xffff, index_acc);
-		Koovox_fill_three_param(value, sum_value, 0x7fff, index_acc);
-		//value[0] = sum_value & 0xff;
-		//value[1] = (sum_value >> 8) & 0xff;
-		//value[2] = index_acc & 0xff;
-		//value[3] = (index_acc >> 8) & 0xff;
-		//value[4] = (index_acc >> 16) & 0xff;
-		//value[5] = (index_acc >> 24) & 0xff;
+		Koovox_fill_three_param(value, step_value, 0x7fff, index_acc);
 		
 		// send curr_value and index_acc to csr8670
 		Koovox_fill_and_send_packet(ENV, STEP_COUNT, value, 6);
