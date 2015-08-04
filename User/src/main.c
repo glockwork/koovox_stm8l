@@ -16,14 +16,23 @@ FILE NAME
 #include "koovox_lis3dh_sensor.h"
 #include "koovox_hb_sensor.h"
 
+
+bool system_sleep_enable = FALSE;
+
+static void Koovox_system_sleep(void);
+
 int main( void )
 {
-	uint32_t time = 0;
 
 	/*********** 初始化内部系统时钟 **********/
     CLK_HSICmd(ENABLE);//开始内部高频RC
     CLK_SYSCLKSourceConfig(CLK_SYSCLKSource_HSI);//HSI为系统时钟
-    CLK_SYSCLKDivConfig(CLK_SYSCLKDiv_4);	/* 8Mhz 主频 */
+    CLK_SYSCLKDivConfig(CLK_SYSCLK_DIV);	/* 主频 */
+
+	/******* 配置中断唤醒MCU ***********/
+	GPIO_Init(GPIOA, GPIO_Pin_4, GPIO_Mode_In_PU_IT);
+    EXTI_DeInit (); //恢复中断的所有设置 
+    EXTI_SetPinSensitivity (EXTI_Pin_4,EXTI_Trigger_Falling);//外部中断4，下降沿触发
 
 	enableInterrupts();	
 
@@ -44,24 +53,53 @@ int main( void )
 	
 		// 接收串口数据
 		Koovox_receive_message();
+
+		// 健康监测
+		Koovox_health_monitor();
 		
 		// 加速度相关计算
 		Koovox_calc_accelerate();
 
-		// 发送hb_sensor原始数据到CSR8670
-		Koovox_send_hb_adc_value();
+		// 发送心率值到CSR8670
+		Koovox_send_heart_rate_value();
 
-		// 心跳包唤醒csr8670
-		if(curr_time - time >= 30)
-		{
-			time = curr_time;
-			Koovox_fill_and_send_packet(ENV , SYSTEM, 0, 0);
-		}
+		// 休眠判断
+		Koovox_system_sleep();
 
 	}
 }
 
 
+/**
+* @brief  Koovox_system_sleep
+* @param  none
+* @retval none
+*/
+static void Koovox_system_sleep(void)
+{
+	uint8_t result = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4);
+
+	if((!result)&&(!health_monitor_enable)&&(!heart_rate_enable))
+	{
+		system_sleep_enable = TRUE;
+ 	}
+
+	if(system_sleep_enable)
+	{
+		halt();
+	}
+}
+
+
+/**
+  * @brief External IT PIN4 Interrupt routine.
+  * @param  None
+  * @retval None
+  */
+INTERRUPT_HANDLER(EXTI4_IRQHandler,12)
+{
+	system_sleep_enable = FALSE;
+}
 
 
 

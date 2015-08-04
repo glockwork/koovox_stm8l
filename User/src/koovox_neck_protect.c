@@ -26,6 +26,14 @@ FILE NAME
 #define HIGH_LEVEL_VALUE	143
 #define LOW_LEVEL_VALUE		81
 
+#define ANGLE_INIT_COUNT			(5)
+
+static int16_t angle_x_int = 0;
+static int16_t angle_y_int = 0;
+static int16_t angle_z_int = 0;
+uint8_t angle_init_cnt = 0;
+
+
 uint32_t neck_protect_count = 0;		// 统计异常坐姿时间
 uint32_t neck_perfect_count = 0;		// 统计正确坐姿时间
 uint16_t neck_protect_time = NECK_PROTECT_ALARM_TIME;
@@ -34,6 +42,144 @@ uint32_t neck_updata_count = 0;
 bool neck_protect_lock		= FALSE;	// 异常坐姿锁
 bool neck_perfect_lock		= FALSE;	// 正确坐姿锁
 bool neck_protect_enable 	= FALSE;
+
+
+const int16_t sin_table[] = {
+17,  34,  52,  69,  87, 104, 121, 139, 156, 173,
+190, 207, 224, 241, 258, 275, 292, 309, 325, 342,
+358, 374, 390, 406, 422, 438, 453, 469, 484, 500,
+515, 529, 544, 559, 573, 587, 601, 615, 629, 642,
+656, 669, 681, 694, 707, 719, 731, 743, 754, 766,
+777, 788, 798, 809, 819, 829, 838, 848, 857, 866,
+874, 882, 891, 898, 906, 913, 920, 927, 933, 939,
+945, 951, 956, 961, 965, 970, 974, 978, 981, 984,
+987, 990, 992, 994, 996, 997, 998, 999, 999, 1000	
+};
+
+
+/**
+  * @Angle_search
+  * @param  
+  * 		table: the address point of the table
+  *		size: the length of the table
+  *		key: search the key
+  * @retval the angle value
+  */
+static int8_t Angle_search(const int16_t* table, uint16_t size, int16_t key)
+{
+	uint16_t low = 0;
+	uint16_t high = size - 1;
+	uint16_t mid = (low + high) / 2;
+
+	if(key < 0)
+		key = -key;
+	
+
+	if(key > table[size - 1])
+		return (int8_t)90;
+
+	while(low < high)
+	{
+		if(key > table[mid])
+		{
+			low = mid + 1;
+			mid = (low + high) / 2;
+		}
+		else if(key < table[mid])
+		{
+			high = mid - 1;
+			mid = (low + high) / 2;
+		}
+		else
+			return (int8_t)mid;
+	}
+
+	return (int8_t)low;
+}
+
+
+/****************************************************************************
+NAME 
+  	KoovoxProtectNeck
+
+DESCRIPTION
+ 	neck protect
+ 
+RETURNS
+  	void
+*/ 
+static void KoovoxProtectNeck(int16_t axis_x, int16_t axis_y, int16_t axis_z)
+{
+	int8_t angle_x_curr = 0;
+	int8_t angle_y_curr = 0;
+	int8_t angle_z_curr = 0;
+
+	angle_x_curr = Angle_search(sin_table, 90, axis_x);
+	angle_y_curr = Angle_search(sin_table, 90, axis_y);
+	angle_z_curr = 90 - Angle_search(sin_table, 90, axis_z);
+
+
+	if(angle_init_cnt == ANGLE_INIT_COUNT)
+	{
+		angle_x_int /= ANGLE_INIT_COUNT;
+		angle_y_int /= ANGLE_INIT_COUNT;
+		angle_z_int /= ANGLE_INIT_COUNT;
+
+		angle_init_cnt++;
+					
+	}
+	else if(angle_init_cnt < ANGLE_INIT_COUNT)
+	{
+		angle_init_cnt++;
+		angle_x_int += angle_x_curr;
+		angle_y_int += angle_y_curr;
+		angle_z_int += angle_z_curr;
+		return;
+	}
+
+	if(axis_x < 0)
+	{
+		angle_x_curr = - angle_x_curr;
+	}
+
+	if(axis_y < 0)
+	{
+		angle_y_curr = - angle_y_curr;
+	}
+	
+	if(axis_z < 0)
+	{
+		angle_z_curr = - angle_z_curr;
+	}
+
+	if((angle_x_curr - (int8_t)angle_x_int > ANGLE_VALUE_THRESHOLD )
+		||(((int8_t)angle_x_int - angle_x_curr) > ANGLE_VALUE_THRESHOLD))
+	{
+		/********* 启动定时器 ********/
+		Koovox_neck_protect_event(TRUE);
+	}
+
+	if((angle_y_curr - (int8_t)angle_y_int > ANGLE_VALUE_THRESHOLD )
+		||(((int8_t)angle_y_int - angle_y_curr) > ANGLE_VALUE_THRESHOLD))
+	{
+		/********* 启动定时器 ********/
+		Koovox_neck_protect_event(TRUE);
+	}
+
+	if((angle_z_curr - (int8_t)angle_z_int > ANGLE_VALUE_THRESHOLD )
+		||(((int8_t)angle_z_int - angle_z_curr) > ANGLE_VALUE_THRESHOLD))
+	{
+		/********* 启动定时器 ********/
+		Koovox_neck_protect_event(TRUE);
+	}
+
+	/***** 关闭定时器 ****/
+	{
+		Koovox_neck_protect_event(FALSE);
+	}
+	
+}
+
 
 
 
@@ -78,6 +224,7 @@ uint8_t Koovox_disable_neck_protect(void)
 	if(neck_protect_enable)
 	{
 		neck_protect_enable = FALSE;
+		
 	}
 	else
 		return PROCESS;
@@ -108,16 +255,8 @@ void Koovox_neck_protect(int16_t axis_x, int16_t axis_y, int16_t axis_z, int16_t
 
 		if((sum <= HIGH_LEVEL_VALUE)&&(sum >= LOW_LEVEL_VALUE))
 		{
-			uint8_t value[6] = {0};
-			
-			value[0] = axis_x & 0xff;
-			value[1] = (axis_x >> 8) & 0xff;
-			value[2] = axis_y & 0xff;
-			value[3] = (axis_y >> 8) & 0xff;
-			value[4] = axis_z & 0xff;
-			value[5] = (axis_z >> 8) & 0xff;
-			
-			Koovox_fill_and_send_packet(ENV, NECK_PROTECT, value, 6);
+			// 计算各轴角度
+			KoovoxProtectNeck(axis_x, axis_y, axis_z);
 		}
 
 		neck_updata_count = time_curr;

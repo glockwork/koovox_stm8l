@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR ELF Linker V1.31.1.50058 for STM8                 28/Jul/2015  16:30:02 #
+# IAR ELF Linker V1.31.1.50058 for STM8                 04/Aug/2015  11:04:49 #
 # Copyright 2010-2012 IAR Systems AB.                                         #
 #                                                                             #
 #    Output file  =  D:\STM8\Koovox\Exe\Koovox.out                            #
@@ -15,19 +15,18 @@
 #                    D:\STM8\Koovox\Obj\koovox_uart.o                         #
 #                    D:\STM8\Koovox\Obj\main.o D:\STM8\Koovox\Obj\stm8l15x_ad #
 #                    c.o D:\STM8\Koovox\Obj\stm8l15x_clk.o                    #
+#                    D:\STM8\Koovox\Obj\stm8l15x_exti.o                       #
 #                    D:\STM8\Koovox\Obj\stm8l15x_flash.o                      #
 #                    D:\STM8\Koovox\Obj\stm8l15x_gpio.o                       #
 #                    D:\STM8\Koovox\Obj\stm8l15x_i2c.o                        #
 #                    D:\STM8\Koovox\Obj\stm8l15x_tim2.o                       #
 #                    D:\STM8\Koovox\Obj\stm8l15x_tim3.o                       #
-#                    D:\STM8\Koovox\Obj\stm8l15x_tim4.o                       #
-#                    D:\STM8\Koovox\Obj\stm8l15x_usart.o                      #
-#                    D:\STM8\Koovox\Obj\stm8l15x_wfe.o --redirect             #
+#                    D:\STM8\Koovox\Obj\stm8l15x_usart.o --redirect           #
 #                    _Printf=_PrintfSmall --redirect _Scanf=_ScanfSmall -o    #
 #                    D:\STM8\Koovox\Exe\Koovox.out --map                      #
 #                    D:\STM8\Koovox\List\Koovox.map --config "C:\Program      #
 #                    Files (x86)\IAR Systems\Embedded Workbench 6.0           #
-#                    Evaluation\stm8\config\lnkstm8l151f3.icf" --config_def   #
+#                    Evaluation\stm8\config\lnkstm8l151k4.icf" --config_def   #
 #                    _CSTACK_SIZE=0x100 --config_def _HEAP_SIZE=0x100         #
 #                    --entry __iar_program_start --debug_lib                  #
 #                                                                             #
@@ -52,16 +51,16 @@ __rt_version               = 4
 ***
 
 "A1":  place at start of [0x000000-0x0000ff] { rw section .vregs };
-"A2":  place at end of [0x000000-0x0003ff] { block CSTACK };
-"P2":  place in [from 0x000000 to 0x0003ff] {
+"A2":  place at end of [0x000000-0x0007ff] { block CSTACK };
+"P2":  place in [from 0x000000 to 0x0007ff] {
           block HEAP, rw section .far.bss, rw section .far.data,
           rw section .far.noinit, rw section .far_func.textrw,
           rw section .huge.bss, rw section .huge.data, rw section .huge.noinit,
           rw section .huge_func.textrw, rw section .iar.dynexit,
           rw section .near.bss, rw section .near.data, rw section .near.noinit,
           rw section .near_func.textrw };
-"A3":  place at start of [0x008000-0x009fff] { block INTVEC };
-"P3":  place in [from 0x008000 to 0x009fff] {
+"A3":  place at start of [0x008000-0x00bfff] { block INTVEC };
+"P3":  place in [from 0x008000 to 0x00bfff] {
           ro section .far.data_init, ro section .far_func.textrw_init,
           ro section .huge.data_init, ro section .huge_func.textrw_init,
           ro section .iar.init_table, ro section .init_array,
@@ -75,174 +74,204 @@ __rt_version               = 4
   .vregs             uninit   0x000000    0x10  vregs.o [4]
                             - 0x000010    0x10
 
-"P2", part 1 of 2:                         0x4
-  P2 s0                       0x000010     0x4  <Init block>
-    .near.data       inited   0x000010     0x2  koovox_const_seat.o [1]
-    .near.data       inited   0x000012     0x2  koovox_neck_protect.o [1]
-                            - 0x000014     0x4
+"P2", part 1 of 2:                        0x1e
+  P2 s0                       0x000010    0x1e  <Init block>
+    .near.data       inited   0x000010    0x11  koovox_step_count.o [1]
+    .near.data       inited   0x000021     0x9  koovox_const_seat.o [1]
+    .near.data       inited   0x00002a     0x2  koovox_const_seat.o [1]
+    .near.data       inited   0x00002c     0x2  koovox_neck_protect.o [1]
+                            - 0x00002e    0x1e
 
-"P2", part 2 of 2:                        0x5f
-  .near.bss          zero     0x000014    0x28  koovox_hb_sensor.o [1]
-  .near.bss          zero     0x00003c     0xc  koovox_uart.o [1]
-  .near.bss          zero     0x000048     0x4  koovox_const_seat.o [1]
-  .near.bss          zero     0x00004c     0x4  koovox_lis3dh_sensor.o [1]
-  .near.bss          zero     0x000050     0x4  koovox_lis3dh_sensor.o [1]
-  .near.bss          zero     0x000054     0x4  koovox_neck_protect.o [1]
-  .near.bss          zero     0x000058     0x4  koovox_neck_protect.o [1]
-  .near.bss          zero     0x00005c     0x4  koovox_neck_protect.o [1]
-  .near.bss          zero     0x000060     0x4  koovox_step_count.o [1]
-  .near.bss          zero     0x000064     0x2  koovox_hb_sensor.o [1]
-  .near.bss          zero     0x000066     0x2  koovox_step_count.o [1]
-  .near.bss          zero     0x000068     0x1  koovox_const_seat.o [1]
-  .near.bss          zero     0x000069     0x1  koovox_hb_sensor.o [1]
-  .near.bss          zero     0x00006a     0x1  koovox_hb_sensor.o [1]
-  .near.bss          zero     0x00006b     0x1  koovox_head_action.o [1]
-  .near.bss          zero     0x00006c     0x1  koovox_head_action.o [1]
-  .near.bss          zero     0x00006d     0x1  koovox_neck_protect.o [1]
-  .near.bss          zero     0x00006e     0x1  koovox_neck_protect.o [1]
-  .near.bss          zero     0x00006f     0x1  koovox_neck_protect.o [1]
-  .near.bss          zero     0x000070     0x1  koovox_step_count.o [1]
-  .near.bss          zero     0x000071     0x1  koovox_uart.o [1]
-  .near.bss          zero     0x000072     0x1  koovox_uart.o [1]
-                            - 0x000073    0x5f
+"P2", part 2 of 2:                       0x193
+  .near.bss          zero     0x00002e    0xf0  koovox_hb_sensor.o [1]
+  .near.bss          zero     0x00011e    0x28  koovox_hb_sensor.o [1]
+  .near.bss          zero     0x000146    0x11  koovox_head_action.o [1]
+  .near.bss          zero     0x000157    0x11  koovox_head_action.o [1]
+  .near.bss          zero     0x000168    0x11  koovox_head_action.o [1]
+  .near.bss          zero     0x000179     0xc  koovox_uart.o [1]
+  .near.bss          zero     0x000185     0x4  koovox_const_seat.o [1]
+  .near.bss          zero     0x000189     0x4  koovox_lis3dh_sensor.o [1]
+  .near.bss          zero     0x00018d     0x4  koovox_lis3dh_sensor.o [1]
+  .near.bss          zero     0x000191     0x4  koovox_message_handle.o [1]
+  .near.bss          zero     0x000195     0x4  koovox_neck_protect.o [1]
+  .near.bss          zero     0x000199     0x4  koovox_neck_protect.o [1]
+  .near.bss          zero     0x00019d     0x4  koovox_neck_protect.o [1]
+  .near.bss          zero     0x0001a1     0x4  koovox_step_count.o [1]
+  .near.bss          zero     0x0001a5     0x4  koovox_step_count.o [1]
+  .near.bss          zero     0x0001a9     0x2  koovox_hb_sensor.o [1]
+  .near.bss          zero     0x0001ab     0x2  koovox_neck_protect.o [1]
+  .near.bss          zero     0x0001ad     0x2  koovox_neck_protect.o [1]
+  .near.bss          zero     0x0001af     0x2  koovox_neck_protect.o [1]
+  .near.bss          zero     0x0001b1     0x2  koovox_step_count.o [1]
+  .near.bss          zero     0x0001b3     0x1  koovox_const_seat.o [1]
+  .near.bss          zero     0x0001b4     0x1  koovox_hb_sensor.o [1]
+  .near.bss          zero     0x0001b5     0x1  koovox_hb_sensor.o [1]
+  .near.bss          zero     0x0001b6     0x1  koovox_head_action.o [1]
+  .near.bss          zero     0x0001b7     0x1  koovox_head_action.o [1]
+  .near.bss          zero     0x0001b8     0x1  koovox_message_handle.o [1]
+  .near.bss          zero     0x0001b9     0x1  koovox_neck_protect.o [1]
+  .near.bss          zero     0x0001ba     0x1  koovox_neck_protect.o [1]
+  .near.bss          zero     0x0001bb     0x1  koovox_neck_protect.o [1]
+  .near.bss          zero     0x0001bc     0x1  koovox_neck_protect.o [1]
+  .near.bss          zero     0x0001bd     0x1  koovox_step_count.o [1]
+  .near.bss          zero     0x0001be     0x1  koovox_uart.o [1]
+  .near.bss          zero     0x0001bf     0x1  koovox_uart.o [1]
+  .near.bss          zero     0x0001c0     0x1  main.o [1]
+                            - 0x0001c1   0x193
 
 "A2":                                    0x100
-  CSTACK                      0x000300   0x100  <Block>
-    CSTACK           uninit   0x000300   0x100  <Block tail>
-                            - 0x000400   0x100
+  CSTACK                      0x000700   0x100  <Block>
+    CSTACK           uninit   0x000700   0x100  <Block tail>
+                            - 0x000800   0x100
 
 "A3":                                     0x80
   INTVEC                      0x008000    0x80  <Block>
     .intvec          const    0x008000    0x80  interrupt.o [4]
                             - 0x008080    0x80
 
-"P3":                                   0x1b0e
-  .near_func.text    ro code  0x008080   0x1ac  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x00822c   0x189  koovox_message_handle.o [1]
-  .near_func.text    ro code  0x0083b5   0x176  long.o [4]
-  .near_func.text    ro code  0x00852b   0x16c  vreg_util.o [4]
-  .near_func.text    ro code  0x008697   0x115  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x0087ac   0x105  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x0088b1    0xf8  koovox_neck_protect.o [1]
-  .near_func.text    ro code  0x0089a9    0xec  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x008a95    0xca  koovox_message_handle.o [1]
-  .near_func.text    ro code  0x008b5f    0xc3  koovox_message_handle.o [1]
-  .near_func.text    ro code  0x008c22    0xb8  koovox_const_seat.o [1]
-  .near_func.text    ro code  0x008cda    0x89  koovox_step_count.o [1]
-  .near_func.text    ro code  0x008d63    0x89  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x008dec    0x7c  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x008e68    0x6f  koovox_hb_sensor.o [1]
-  .near_func.text    ro code  0x008ed7    0x6e  main.o [1]
-  .near_func.text    ro code  0x008f45    0x6b  stm8l15x_gpio.o [1]
-  .near_func.text    ro code  0x008fb0    0x69  koovox_hb_sensor.o [1]
-  .near_func.text    ro code  0x009019    0x64  koovox_uart.o [1]
-  .near_func.text    ro code  0x00907d    0x5d  koovox_neck_protect.o [1]
-  .near_func.text    ro code  0x0090da    0x5d  short.o [4]
-  .near_func.text    ro code  0x009137    0x5c  stm8l15x_clk.o [1]
-  .near_func.text    ro code  0x009193    0x5a  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x0091ed    0x57  koovox_hb_sensor.o [1]
-  .near_func.text    ro code  0x009244    0x55  koovox_uart.o [1]
-  .near_func.text    ro code  0x009299    0x54  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x0092ed    0x51  koovox_const_seat.o [1]
-  .near_func.text    ro code  0x00933e    0x51  koovox_neck_protect.o [1]
-  .near_func.text    ro code  0x00938f    0x4e  long_util.o [4]
-  .near_func.text    ro code  0x0093dd    0x4d  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x00942a    0x40  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x00946a    0x3f  koovox_head_action.o [1]
-  .near_func.text    ro code  0x0094a9    0x3f  koovox_head_action.o [1]
-  .near_func.text    ro code  0x0094e8    0x3f  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x009527    0x3a  stm8l15x_clk.o [1]
-  .near_func.text    ro code  0x009561    0x38  koovox_uart.o [1]
-  .near_func.text    ro code  0x009599    0x36  koovox_step_count.o [1]
-  .near_func.text    ro code  0x0095cf    0x35  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x009604    0x34  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009638    0x32  koovox_hb_sensor.o [1]
-  .near.rodata       const    0x00966a    0x2d  koovox_message_handle.o [1]
-  .near_func.text    ro code  0x009697    0x2c  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x0096c3    0x2b  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x0096ee    0x29  koovox_lis3dh_sensor.o [1]
-  .near.rodata       const    0x009717    0x28  koovox_hb_sensor.o [1]
-  .near_func.text    ro code  0x00973f    0x28  init_small.o [4]
-  .near_func.text    ro code  0x009767    0x26  koovox_lis3dh_sensor.o [1]
-  .near_func.text    ro code  0x00978d    0x1f  stm8l15x_tim2.o [1]
-  .iar.init_table    const    0x0097ac    0x12  - Linker created -
-  .near_func.text    ro code  0x0097be    0x20  stm8l15x_flash.o [1]
-  .near_func.text    ro code  0x0097de    0x1f  stm8l15x_tim3.o [1]
-  .near_func.text    ro code  0x0097fd    0x1f  dc_util.o [4]
-  .near_func.text    ro code  0x00981c    0x1e  init_small.o [4]
-  .near_func.text    ro code  0x00983a    0x1d  stm8l15x_adc.o [1]
-  .near_func.text    ro code  0x009857    0x1c  stm8l15x_flash.o [1]
-  .near_func.text    ro code  0x009873    0x1b  stm8l15x_flash.o [1]
-  .near_func.text    ro code  0x00988e    0x1a  koovox_step_count.o [1]
-  .near_func.text    ro code  0x0098a8    0x1a  stm8l15x_flash.o [1]
-  .near_func.text    ro code  0x0098c2    0x19  koovox_uart.o [1]
-  .near_func.text    ro code  0x0098db    0x18  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x0098f3    0x17  init.o [4]
-  .near_func.text    ro code  0x00990a    0x16  stm8l15x_adc.o [1]
-  .near_func.text    ro code  0x009920    0x14  __dbg_xxexit.o [3]
-  .near_func.text    ro code  0x009934    0x13  koovox_step_count.o [1]
-  .near_func.text    ro code  0x009947    0x13  cstartup.o [4]
-  .near_func.text    ro code  0x00995a    0x11  stm8l15x_adc.o [1]
-  .near_func.text    ro code  0x00996b    0x11  stm8l15x_tim2.o [1]
-  .near_func.text    ro code  0x00997c    0x11  stm8l15x_tim3.o [1]
-  .near_func.text    ro code  0x00998d    0x10  koovox_const_seat.o [1]
-  .near_func.text    ro code  0x00999d    0x10  koovox_head_action.o [1]
-  .near_func.text    ro code  0x0099ad    0x10  koovox_head_action.o [1]
-  .near_func.text    ro code  0x0099bd    0x10  koovox_head_action.o [1]
-  .near_func.text    ro code  0x0099cd    0x10  koovox_head_action.o [1]
-  .near_func.text    ro code  0x0099dd    0x10  koovox_neck_protect.o [1]
-  .near_func.text    ro code  0x0099ed    0x10  koovox_step_count.o [1]
-  .near_func.text    ro code  0x0099fd    0x10  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x009a0d     0xf  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009a1c     0xe  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009a2a     0xe  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009a38     0xe  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009a46     0xe  stm8l15x_tim2.o [1]
-  .near_func.text    ro code  0x009a54     0xe  stm8l15x_tim3.o [1]
-  .near_func.text    ro code  0x009a62     0xd  stm8l15x_adc.o [1]
-  .near_func.text    ro code  0x009a6f     0xd  stm8l15x_clk.o [1]
-  .near_func.text    ro code  0x009a7c     0xd  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009a89     0xd  stm8l15x_tim2.o [1]
-  .near_func.text    ro code  0x009a96     0xd  stm8l15x_tim2.o [1]
-  .near_func.text    ro code  0x009aa3     0xd  stm8l15x_tim3.o [1]
-  .near_func.text    ro code  0x009ab0     0xd  stm8l15x_tim3.o [1]
-  .near_func.text    ro code  0x009abd     0xd  move.o [4]
-  .near_func.text    ro code  0x009aca     0xc  koovox_const_seat.o [1]
-  .near_func.text    ro code  0x009ad6     0xc  stm8l15x_adc.o [1]
-  .near_func.text    ro code  0x009ae2     0xb  stm8l15x_adc.o [1]
-  .near_func.text    ro code  0x009aed     0xa  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x009af7     0x9  stm8l15x_i2c.o [1]
-  .near.rodata       const    0x009b00     0x8  koovox_head_action.o [1]
-  .near.rodata       const    0x009b08     0x8  koovox_head_action.o [1]
-  .near_func.text    ro code  0x009b10     0x8  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x009b18     0x7  stm8l15x_usart.o [1]
-  .near.rodata       const    0x009b1f     0x6  koovox_const_seat.o [1]
-  .near.rodata       const    0x009b25     0x6  koovox_lis3dh_sensor.o [1]
-  .near.rodata       const    0x009b2b     0x6  koovox_neck_protect.o [1]
-  .near.rodata       const    0x009b31     0x6  koovox_step_count.o [1]
-  .near_func.text    ro code  0x009b37     0x6  stm8l15x_adc.o [1]
-  .near_func.text    ro code  0x009b3d     0x6  stm8l15x_i2c.o [1]
-  .near.rodata       const    0x009b43     0x5  stm8l15x_clk.o [1]
-  .near_func.text    ro code  0x009b48     0x5  stm8l15x_adc.o [1]
-  .near_func.text    ro code  0x009b4d     0x5  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009b52     0x5  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009b57     0x5  stm8l15x_i2c.o [1]
-  .near_func.text    ro code  0x009b5c     0x5  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x009b61     0x5  cexit.o [4]
-  .near_func.text    ro code  0x009b66     0x4  stm8l15x_clk.o [1]
-  .near_func.text    ro code  0x009b6a     0x4  stm8l15x_clk.o [1]
-  .near_func.text    ro code  0x009b6e     0x4  stm8l15x_gpio.o [1]
-  .near_func.text    ro code  0x009b72     0x3  stm8l15x_gpio.o [1]
-  .near_func.text    ro code  0x009b75     0x3  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x009b78     0x3  stm8l15x_usart.o [1]
-  .near_func.text    ro code  0x009b7b     0x3  interrupt.o [4]
-  .near_func.text    ro code  0x009b7e     0x3  low_level_init.o [4]
-  .near_func.text    ro code  0x009b81     0x3  exit.o [4]
-  .near_func.text    ro code  0x009b84     0x3  unhandled_exception.o [4]
-  .near.rodata       const    0x009b87     0x2  koovox_message_handle.o [1]
-  .near_func.text    ro code  0x009b89     0x1  __dbg_break.o [3]
-  Initializer bytes  ro data  0x009b8a     0x4  <for P2 s0>
-                            - 0x009b8e  0x1b0e
+"P3":                                   0x25b2
+  .near_func.text    ro code  0x008080   0x322  koovox_hb_sensor.o [1]
+  .near_func.text    ro code  0x0083a2   0x19c  vreg_util.o [4]
+  .near_func.text    ro code  0x00853e   0x187  koovox_neck_protect.o [1]
+  .near_func.text    ro code  0x0086c5   0x17a  long.o [4]
+  .near_func.text    ro code  0x00883f   0x176  koovox_head_action.o [1]
+  .near_func.text    ro code  0x0089b5   0x15e  koovox_message_handle.o [1]
+  .near_func.text    ro code  0x008b13   0x115  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x008c28   0x101  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x008d29    0xff  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x008e28    0xeb  koovox_step_count.o [1]
+  .near_func.text    ro code  0x008f13    0xc3  koovox_message_handle.o [1]
+  .near_func.text    ro code  0x008fd6    0xbc  koovox_neck_protect.o [1]
+  .near.rodata       const    0x009092    0xb4  koovox_neck_protect.o [1]
+  .near_func.text    ro code  0x009146    0xb2  koovox_step_count.o [1]
+  .near_func.text    ro code  0x0091f8    0xa0  koovox_step_count.o [1]
+  .near_func.text    ro code  0x009298    0x9a  koovox_const_seat.o [1]
+  .near_func.text    ro code  0x009332    0x95  koovox_head_action.o [1]
+  .near_func.text    ro code  0x0093c7    0x95  koovox_head_action.o [1]
+  .near_func.text    ro code  0x00945c    0x8b  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x0094e7    0x8a  stm8l15x_exti.o [1]
+  .near_func.text    ro code  0x009571    0x89  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x0095fa    0x86  koovox_hb_sensor.o [1]
+  .near_func.text    ro code  0x009680    0x82  koovox_neck_protect.o [1]
+  .near_func.text    ro code  0x009702    0x7c  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x00977e    0x79  koovox_const_seat.o [1]
+  .near_func.text    ro code  0x0097f7    0x6f  koovox_hb_sensor.o [1]
+  .near_func.text    ro code  0x009866    0x6b  stm8l15x_gpio.o [1]
+  .near_func.text    ro code  0x0098d1    0x69  koovox_hb_sensor.o [1]
+  .near_func.text    ro code  0x00993a    0x64  koovox_uart.o [1]
+  .near_func.text    ro code  0x00999e    0x61  koovox_step_count.o [1]
+  .near_func.text    ro code  0x0099ff    0x5d  koovox_neck_protect.o [1]
+  .near_func.text    ro code  0x009a5c    0x5c  stm8l15x_clk.o [1]
+  .near_func.text    ro code  0x009ab8    0x5b  short.o [4]
+  .near_func.text    ro code  0x009b13    0x5a  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x009b6d    0x5a  long_util.o [4]
+  .near_func.text    ro code  0x009bc7    0x56  main.o [1]
+  .near_func.text    ro code  0x009c1d    0x55  koovox_uart.o [1]
+  .near_func.text    ro code  0x009c72    0x54  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x009cc6    0x53  koovox_head_action.o [1]
+  .near_func.text    ro code  0x009d19    0x51  koovox_const_seat.o [1]
+  .near_func.text    ro code  0x009d6a    0x51  koovox_head_action.o [1]
+  .near_func.text    ro code  0x009dbb    0x51  koovox_neck_protect.o [1]
+  .near_func.text    ro code  0x009e0c    0x4d  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x009e59    0x41  koovox_message_handle.o [1]
+  .near_func.text    ro code  0x009e9a    0x40  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x009eda    0x3f  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x009f19    0x3c  koovox_message_handle.o [1]
+  .near_func.text    ro code  0x009f55    0x3a  stm8l15x_clk.o [1]
+  .near_func.text    ro code  0x009f8f    0x38  koovox_uart.o [1]
+  .near_func.text    ro code  0x009fc7    0x36  koovox_step_count.o [1]
+  .near_func.text    ro code  0x009ffd    0x35  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x00a032    0x34  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a066    0x32  koovox_hb_sensor.o [1]
+  .near_func.text    ro code  0x00a098    0x2e  koovox_const_seat.o [1]
+  .near.rodata       const    0x00a0c6    0x2d  koovox_message_handle.o [1]
+  .near_func.text    ro code  0x00a0f3    0x2c  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x00a11f    0x2b  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x00a14a    0x29  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x00a173    0x28  init_small.o [4]
+  .near_func.text    ro code  0x00a19b    0x26  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x00a1c1    0x26  main.o [1]
+  .near_func.text    ro code  0x00a1e7    0x21  stm8l15x_exti.o [1]
+  .iar.init_table    const    0x00a208    0x12  - Linker created -
+  .near_func.text    ro code  0x00a21a    0x20  stm8l15x_flash.o [1]
+  .near_func.text    ro code  0x00a23a    0x1f  stm8l15x_tim2.o [1]
+  .near_func.text    ro code  0x00a259    0x1f  stm8l15x_tim3.o [1]
+  .near_func.text    ro code  0x00a278    0x1f  dc_util.o [4]
+  .near_func.text    ro code  0x00a297    0x1e  init_small.o [4]
+  .near_func.text    ro code  0x00a2b5    0x1d  stm8l15x_adc.o [1]
+  .near_func.text    ro code  0x00a2d2    0x1c  koovox_head_action.o [1]
+  .near_func.text    ro code  0x00a2ee    0x1c  koovox_head_action.o [1]
+  .near_func.text    ro code  0x00a30a    0x1c  stm8l15x_flash.o [1]
+  .near_func.text    ro code  0x00a326    0x1b  stm8l15x_flash.o [1]
+  .near_func.text    ro code  0x00a341    0x1a  koovox_step_count.o [1]
+  .near_func.text    ro code  0x00a35b    0x1a  stm8l15x_flash.o [1]
+  .near_func.text    ro code  0x00a375    0x19  koovox_uart.o [1]
+  .near_func.text    ro code  0x00a38e    0x18  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x00a3a6    0x17  init.o [4]
+  .near_func.text    ro code  0x00a3bd    0x16  koovox_message_handle.o [1]
+  .near_func.text    ro code  0x00a3d3    0x16  stm8l15x_adc.o [1]
+  .near_func.text    ro code  0x00a3e9    0x14  __dbg_xxexit.o [3]
+  .near_func.text    ro code  0x00a3fd    0x13  cstartup.o [4]
+  .near_func.text    ro code  0x00a410    0x11  stm8l15x_adc.o [1]
+  .near_func.text    ro code  0x00a421    0x11  stm8l15x_tim2.o [1]
+  .near_func.text    ro code  0x00a432    0x11  stm8l15x_tim3.o [1]
+  .near.rodata       const    0x00a443    0x10  koovox_hb_sensor.o [1]
+  .near.rodata       const    0x00a453    0x10  koovox_hb_sensor.o [1]
+  .near_func.text    ro code  0x00a463    0x10  koovox_head_action.o [1]
+  .near_func.text    ro code  0x00a473    0x10  koovox_head_action.o [1]
+  .near_func.text    ro code  0x00a483    0x10  koovox_neck_protect.o [1]
+  .near_func.text    ro code  0x00a493    0x10  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x00a4a3     0xf  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a4b2     0xe  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a4c0     0xe  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a4ce     0xe  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a4dc     0xe  stm8l15x_tim2.o [1]
+  .near_func.text    ro code  0x00a4ea     0xe  stm8l15x_tim3.o [1]
+  .near_func.text    ro code  0x00a4f8     0xd  stm8l15x_adc.o [1]
+  .near_func.text    ro code  0x00a505     0xd  stm8l15x_clk.o [1]
+  .near_func.text    ro code  0x00a512     0xd  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a51f     0xd  stm8l15x_tim2.o [1]
+  .near_func.text    ro code  0x00a52c     0xd  stm8l15x_tim2.o [1]
+  .near_func.text    ro code  0x00a539     0xd  stm8l15x_tim3.o [1]
+  .near_func.text    ro code  0x00a546     0xd  stm8l15x_tim3.o [1]
+  .near_func.text    ro code  0x00a553     0xd  move.o [4]
+  .near_func.text    ro code  0x00a560     0xc  stm8l15x_adc.o [1]
+  .near_func.text    ro code  0x00a56c     0xb  stm8l15x_adc.o [1]
+  .near_func.text    ro code  0x00a577     0xa  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x00a581     0x9  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a58a     0x8  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x00a592     0x7  stm8l15x_usart.o [1]
+  .near.rodata       const    0x00a599     0x6  koovox_lis3dh_sensor.o [1]
+  .near_func.text    ro code  0x00a59f     0x6  stm8l15x_adc.o [1]
+  .near_func.text    ro code  0x00a5a5     0x6  stm8l15x_exti.o [1]
+  .near_func.text    ro code  0x00a5ab     0x6  stm8l15x_exti.o [1]
+  .near_func.text    ro code  0x00a5b1     0x6  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a5b7     0x6  char.o [4]
+  .near.rodata       const    0x00a5bd     0x5  stm8l15x_clk.o [1]
+  .near_func.text    ro code  0x00a5c2     0x5  main.o [1]
+  .near_func.text    ro code  0x00a5c7     0x5  stm8l15x_adc.o [1]
+  .near_func.text    ro code  0x00a5cc     0x5  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a5d1     0x5  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a5d6     0x5  stm8l15x_i2c.o [1]
+  .near_func.text    ro code  0x00a5db     0x5  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x00a5e0     0x5  cexit.o [4]
+  .near.rodata       const    0x00a5e5     0x4  koovox_step_count.o [1]
+  .near.rodata       const    0x00a5e9     0x4  koovox_step_count.o [1]
+  .near_func.text    ro code  0x00a5ed     0x4  stm8l15x_clk.o [1]
+  .near_func.text    ro code  0x00a5f1     0x4  stm8l15x_clk.o [1]
+  .near_func.text    ro code  0x00a5f5     0x4  stm8l15x_gpio.o [1]
+  .near_func.text    ro code  0x00a5f9     0x3  stm8l15x_gpio.o [1]
+  .near_func.text    ro code  0x00a5fc     0x3  stm8l15x_gpio.o [1]
+  .near_func.text    ro code  0x00a5ff     0x3  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x00a602     0x3  stm8l15x_usart.o [1]
+  .near_func.text    ro code  0x00a605     0x3  interrupt.o [4]
+  .near_func.text    ro code  0x00a608     0x3  low_level_init.o [4]
+  .near_func.text    ro code  0x00a60b     0x3  exit.o [4]
+  .near_func.text    ro code  0x00a60e     0x3  unhandled_exception.o [4]
+  .near.rodata       const    0x00a611     0x2  koovox_message_handle.o [1]
+  .near_func.text    ro code  0x00a613     0x1  __dbg_break.o [3]
+  Initializer bytes  ro data  0x00a614    0x1e  <for P2 s0>
+                            - 0x00a632  0x25b2
 
 
 *******************************************************************************
@@ -252,14 +281,14 @@ __rt_version               = 4
           Address   Size
           -------   ----
 Zero (__iar_zero_init2)
-    1 destination range, total size 0x5f:
-          0x000014  0x5f
+    1 destination range, total size 0x193:
+          0x00002e  0x193
 
 Copy (__iar_copy_init2)
-    1 source range, total size 0x4:
-          0x009b8a   0x4
-    1 destination range, total size 0x4:
-          0x000010   0x4
+    1 source range, total size 0x1e:
+          0x00a614   0x1e
+    1 destination range, total size 0x1e:
+          0x000010   0x1e
 
 
 *******************************************************************************
@@ -269,25 +298,26 @@ Copy (__iar_copy_init2)
     Module                   ro code  ro data  rw data
     ------                   -------  -------  -------
 D:\STM8\Koovox\Obj: [1]
-    koovox_const_seat.o          293        8        7
-    koovox_hb_sensor.o           353       40       44
-    koovox_head_action.o         190       16        2
-    koovox_lis3dh_sensor.o     1 408        6        8
-    koovox_message_handle.o      790       47
-    koovox_neck_protect.o        438        8       17
-    koovox_step_count.o          252        6        7
+    koovox_const_seat.o          402       11       16
+    koovox_hb_sensor.o         1 202       32      284
+    koovox_head_action.o         924                53
+    koovox_lis3dh_sensor.o     1 134        6        8
+    koovox_message_handle.o      692       47        5
+    koovox_neck_protect.o        899      182       24
+    koovox_step_count.o          750       25       28
     koovox_uart.o                266                14
-    main.o                       110
+    main.o                       129                 1
     stm8l15x_adc.o               115
     stm8l15x_clk.o               171        5
+    stm8l15x_exti.o              183
     stm8l15x_flash.o             113
-    stm8l15x_gpio.o              114
+    stm8l15x_gpio.o              117
     stm8l15x_i2c.o               577
     stm8l15x_tim2.o               88
     stm8l15x_tim3.o               88
     stm8l15x_usart.o             303
     --------------------------------------------------
-    Total:                     5 669      136       99
+    Total:                     8 153      308      433
 
 command line: [2]
     --------------------------------------------------
@@ -301,26 +331,27 @@ dbgstm8smd.a: [3]
 
 dlstm8smn.a: [4]
     cexit.o                        5
+    char.o                         6
     cstartup.o                    19
     dc_util.o                     31
     exit.o                         3
     init.o                        23
     init_small.o                  70
     interrupt.o                    3      128
-    long.o                       374
-    long_util.o                   78
+    long.o                       378
+    long_util.o                   90
     low_level_init.o               3
     move.o                        13
-    short.o                       93
+    short.o                       91
     unhandled_exception.o          3
-    vreg_util.o                  364
+    vreg_util.o                  412
     vregs.o                                         16
     --------------------------------------------------
-    Total:                     1 082      128       16
+    Total:                     1 150      128       16
 
     Linker created                         18      256
 ------------------------------------------------------
-    Grand Total:               6 772      282      371
+    Grand Total:               9 324      454      705
 
 
 *******************************************************************************
@@ -329,6 +360,8 @@ dlstm8smn.a: [4]
 
 Entry                    Address   Size  Type      Object
 -----                    -------   ----  ----      ------
+?add32_l0_l0_0x         0x0086dd         Code  Gb  long.o [4]
+?add32_l0_l0_dl         0x0086d8         Code  Gb  long.o [4]
 ?b0                     0x000000         Data  Gb  vregs.o [4]
 ?b1                     0x000001         Data  Gb  vregs.o [4]
 ?b10                    0x00000a         Data  Gb  vregs.o [4]
@@ -345,107 +378,110 @@ Entry                    Address   Size  Type      Object
 ?b7                     0x000007         Data  Gb  vregs.o [4]
 ?b8                     0x000008         Data  Gb  vregs.o [4]
 ?b9                     0x000009         Data  Gb  vregs.o [4]
-?dc32_l1                0x009804         Code  Gb  dc_util.o [4]
-?dc32_px                0x009811         Code  Gb  dc_util.o [4]
-?dc8_px                 0x0097fd         Code  Gb  dc_util.o [4]
-?dec32_0x_0x            0x0083cd         Code  Gb  long.o [4]
-?dec32_l2_l2            0x0083c8         Code  Gb  long.o [4]
+?dc32_l1                0x00a27f         Code  Gb  dc_util.o [4]
+?dc32_px                0x00a28c         Code  Gb  dc_util.o [4]
+?dc8_px                 0x00a278         Code  Gb  dc_util.o [4]
 ?e0                     0x000001         Data  Gb  vregs.o [4]
 ?e1                     0x000005         Data  Gb  vregs.o [4]
 ?e2                     0x000009         Data  Gb  vregs.o [4]
 ?e3                     0x00000d         Data  Gb  vregs.o [4]
-?epilogue_l2            0x0085c6         Code  Gb  vreg_util.o [4]
-?epilogue_l2_l3         0x0085c3         Code  Gb  vreg_util.o [4]
-?epilogue_l2_w6         0x0085ca         Code  Gb  vreg_util.o [4]
-?epilogue_w4            0x0085d1         Code  Gb  vreg_util.o [4]
-?inc32_0x_0x            0x0083ba         Code  Gb  long.o [4]
-?inc32_l0_l0            0x0083b5         Code  Gb  long.o [4]
+?epilogue_l2            0x008449         Code  Gb  vreg_util.o [4]
+?epilogue_l2_l3         0x008446         Code  Gb  vreg_util.o [4]
+?epilogue_l2_w6         0x00844d         Code  Gb  vreg_util.o [4]
+?epilogue_w4            0x008454         Code  Gb  vreg_util.o [4]
+?inc32_0x_0x            0x0086ca         Code  Gb  long.o [4]
+?inc32_l0_l0            0x0086c5         Code  Gb  long.o [4]
 ?l0                     0x000000         Data  Gb  vregs.o [4]
 ?l1                     0x000004         Data  Gb  vregs.o [4]
 ?l2                     0x000008         Data  Gb  vregs.o [4]
 ?l3                     0x00000c         Data  Gb  vregs.o [4]
-?load32_0x_l0           0x0093b3         Code  Gb  long_util.o [4]
-?load32_0x_l1           0x0093c1         Code  Gb  long_util.o [4]
-?load32_0x_l2           0x0093cf         Code  Gb  long_util.o [4]
-?load32_l0_0x           0x00938f         Code  Gb  long_util.o [4]
-?load32_l1_0x           0x00939b         Code  Gb  long_util.o [4]
-?load32_l2_0x           0x0093a7         Code  Gb  long_util.o [4]
-?mov_e0_e1              0x008625         Code  Gb  vreg_util.o [4]
-?mov_e0_e2              0x008632         Code  Gb  vreg_util.o [4]
-?mov_e0_e3              0x00863f         Code  Gb  vreg_util.o [4]
-?mov_e1_e0              0x00864c         Code  Gb  vreg_util.o [4]
-?mov_e1_e2              0x008659         Code  Gb  vreg_util.o [4]
-?mov_e1_e3              0x008666         Code  Gb  vreg_util.o [4]
-?mov_e2_e0              0x008673         Code  Gb  vreg_util.o [4]
-?mov_e2_e1              0x008680         Code  Gb  vreg_util.o [4]
-?mov_e3_e0              0x00868d         Code  Gb  vreg_util.o [4]
-?mov_l0_l1              0x008622         Code  Gb  vreg_util.o [4]
-?mov_l0_l2              0x00862f         Code  Gb  vreg_util.o [4]
-?mov_l0_l3              0x00863c         Code  Gb  vreg_util.o [4]
-?mov_l1_l0              0x008649         Code  Gb  vreg_util.o [4]
-?mov_l1_l2              0x008656         Code  Gb  vreg_util.o [4]
-?mov_l1_l3              0x008663         Code  Gb  vreg_util.o [4]
-?mov_l2_l0              0x008670         Code  Gb  vreg_util.o [4]
-?mov_l2_l1              0x00867d         Code  Gb  vreg_util.o [4]
-?mov_l3_l0              0x00868a         Code  Gb  vreg_util.o [4]
-?mov_w0_w2              0x0085d5         Code  Gb  vreg_util.o [4]
-?mov_w0_w3              0x0085dc         Code  Gb  vreg_util.o [4]
-?mov_w0_w4              0x0085e3         Code  Gb  vreg_util.o [4]
-?mov_w0_w5              0x0085ea         Code  Gb  vreg_util.o [4]
-?mov_w0_w6              0x0085f1         Code  Gb  vreg_util.o [4]
-?mov_w1_w3              0x008628         Code  Gb  vreg_util.o [4]
-?mov_w1_w4              0x0085f8         Code  Gb  vreg_util.o [4]
-?mov_w1_w5              0x008635         Code  Gb  vreg_util.o [4]
-?mov_w1_w7              0x008642         Code  Gb  vreg_util.o [4]
-?mov_w2_w6              0x0085ff         Code  Gb  vreg_util.o [4]
-?mov_w3_w1              0x00864f         Code  Gb  vreg_util.o [4]
-?mov_w3_w5              0x00865c         Code  Gb  vreg_util.o [4]
-?mov_w3_w7              0x008669         Code  Gb  vreg_util.o [4]
-?mov_w4_w0              0x008606         Code  Gb  vreg_util.o [4]
-?mov_w5_w1              0x008676         Code  Gb  vreg_util.o [4]
-?mov_w5_w3              0x008683         Code  Gb  vreg_util.o [4]
-?mov_w6_w0              0x00860d         Code  Gb  vreg_util.o [4]
-?mov_w6_w1              0x008614         Code  Gb  vreg_util.o [4]
-?mov_w7_w0              0x00861b         Code  Gb  vreg_util.o [4]
-?mov_w7_w1              0x008690         Code  Gb  vreg_util.o [4]
-?move1616_v_x_y_a       0x009abd         Code  Gb  move.o [4]
-?mul16_x_x_w0           0x0090da         Code  Gb  short.o [4]
-?mul32_l0_l0_0x         0x0083ff         Code  Gb  long.o [4]
-?mul32_l0_l0_dl         0x0083fc         Code  Gb  long.o [4]
-?mul32_l0_l0_l1         0x008408         Code  Gb  long.o [4]
-?pop_l0                 0x00858f         Code  Gb  vreg_util.o [4]
-?pop_l1                 0x00859a         Code  Gb  vreg_util.o [4]
-?pop_l2                 0x0085a5         Code  Gb  vreg_util.o [4]
-?pop_l3                 0x0085b0         Code  Gb  vreg_util.o [4]
-?pop_w4                 0x008548         Code  Gb  vreg_util.o [4]
-?pop_w6                 0x00854f         Code  Gb  vreg_util.o [4]
-?push_l0                0x00855e         Code  Gb  vreg_util.o [4]
-?push_l1                0x008563         Code  Gb  vreg_util.o [4]
-?push_l2                0x008568         Code  Gb  vreg_util.o [4]
-?push_l3                0x00856d         Code  Gb  vreg_util.o [4]
-?push_w4                0x00852b         Code  Gb  vreg_util.o [4]
-?push_w6                0x008530         Code  Gb  vreg_util.o [4]
-?sdiv16_x_x_y           0x0090f8         Code  Gb  short.o [4]
-?sll16_x_x_a            0x009121         Code  Gb  short.o [4]
-?sll32_0x_0x_a          0x008508         Code  Gb  long.o [4]
-?sll32_l0_l0_a          0x008505         Code  Gb  long.o [4]
-?sll32_l0_l0_db         0x008501         Code  Gb  long.o [4]
-?smod16_y_x_y           0x009111         Code  Gb  short.o [4]
-?sra16_x_x_4            0x009132         Code  Gb  short.o [4]
-?sra16_x_x_5            0x009131         Code  Gb  short.o [4]
-?sra16_x_x_6            0x009130         Code  Gb  short.o [4]
-?sra16_x_x_7            0x00912f         Code  Gb  short.o [4]
-?sra16_x_x_8            0x00912e         Code  Gb  short.o [4]
-?srl16_x_x_4            0x009129         Code  Gb  short.o [4]
-?srl32_0x_0x_a          0x00851d         Code  Gb  long.o [4]
-?srl32_l0_l0_a          0x00851a         Code  Gb  long.o [4]
-?srl32_l0_l0_db         0x008516         Code  Gb  long.o [4]
-?sub32_l0_l0_0x         0x0083e4         Code  Gb  long.o [4]
-?sub32_l0_l0_l1         0x0083e1         Code  Gb  long.o [4]
-?ucmp32_c_l0_l1         0x0084f6         Code  Gb  long.o [4]
-?udiv32_l0_l0_dl        0x008486         Code  Gb  long.o [4]
-?udiv32_l0_l0_l1        0x008489         Code  Gb  long.o [4]
-?umod32_l1_l0_l1        0x008489         Code  Gb  long.o [4]
+?load32_0x_l0           0x009b9d         Code  Gb  long_util.o [4]
+?load32_0x_l1           0x009bab         Code  Gb  long_util.o [4]
+?load32_0x_l2           0x009bb9         Code  Gb  long_util.o [4]
+?load32_l0_0x           0x009b6d         Code  Gb  long_util.o [4]
+?load32_l1_0x           0x009b79         Code  Gb  long_util.o [4]
+?load32_l2_0x           0x009b85         Code  Gb  long_util.o [4]
+?load32_l3_0x           0x009b91         Code  Gb  long_util.o [4]
+?mov_e0_e1              0x0084d2         Code  Gb  vreg_util.o [4]
+?mov_e0_e2              0x0084df         Code  Gb  vreg_util.o [4]
+?mov_e0_e3              0x0084ec         Code  Gb  vreg_util.o [4]
+?mov_e1_e0              0x0084f9         Code  Gb  vreg_util.o [4]
+?mov_e1_e3              0x00850d         Code  Gb  vreg_util.o [4]
+?mov_e2_e0              0x00851a         Code  Gb  vreg_util.o [4]
+?mov_e2_e1              0x008527         Code  Gb  vreg_util.o [4]
+?mov_e3_e0              0x008534         Code  Gb  vreg_util.o [4]
+?mov_l0_l1              0x0084cf         Code  Gb  vreg_util.o [4]
+?mov_l0_l2              0x0084dc         Code  Gb  vreg_util.o [4]
+?mov_l0_l3              0x0084e9         Code  Gb  vreg_util.o [4]
+?mov_l1_l0              0x0084f6         Code  Gb  vreg_util.o [4]
+?mov_l1_l3              0x00850a         Code  Gb  vreg_util.o [4]
+?mov_l2_l0              0x008517         Code  Gb  vreg_util.o [4]
+?mov_l2_l1              0x008524         Code  Gb  vreg_util.o [4]
+?mov_l3_l0              0x008531         Code  Gb  vreg_util.o [4]
+?mov_w0_w1              0x008458         Code  Gb  vreg_util.o [4]
+?mov_w0_w2              0x00845f         Code  Gb  vreg_util.o [4]
+?mov_w0_w3              0x008466         Code  Gb  vreg_util.o [4]
+?mov_w0_w4              0x00846d         Code  Gb  vreg_util.o [4]
+?mov_w0_w5              0x008474         Code  Gb  vreg_util.o [4]
+?mov_w0_w6              0x00847b         Code  Gb  vreg_util.o [4]
+?mov_w0_w7              0x008482         Code  Gb  vreg_util.o [4]
+?mov_w1_w0              0x008489         Code  Gb  vreg_util.o [4]
+?mov_w1_w3              0x0084d5         Code  Gb  vreg_util.o [4]
+?mov_w1_w4              0x008490         Code  Gb  vreg_util.o [4]
+?mov_w1_w5              0x0084e2         Code  Gb  vreg_util.o [4]
+?mov_w1_w7              0x0084ef         Code  Gb  vreg_util.o [4]
+?mov_w2_w6              0x008497         Code  Gb  vreg_util.o [4]
+?mov_w3_w0              0x00849e         Code  Gb  vreg_util.o [4]
+?mov_w3_w1              0x0084fc         Code  Gb  vreg_util.o [4]
+?mov_w3_w2              0x0084a5         Code  Gb  vreg_util.o [4]
+?mov_w3_w5              0x008503         Code  Gb  vreg_util.o [4]
+?mov_w3_w7              0x008510         Code  Gb  vreg_util.o [4]
+?mov_w4_w0              0x0084ac         Code  Gb  vreg_util.o [4]
+?mov_w4_w7              0x0084b3         Code  Gb  vreg_util.o [4]
+?mov_w5_w1              0x00851d         Code  Gb  vreg_util.o [4]
+?mov_w5_w3              0x00852a         Code  Gb  vreg_util.o [4]
+?mov_w6_w0              0x0084ba         Code  Gb  vreg_util.o [4]
+?mov_w6_w1              0x0084c1         Code  Gb  vreg_util.o [4]
+?mov_w7_w0              0x0084c8         Code  Gb  vreg_util.o [4]
+?mov_w7_w1              0x008537         Code  Gb  vreg_util.o [4]
+?move1616_v_x_y_a       0x00a553         Code  Gb  move.o [4]
+?mul16_x_x_w0           0x009ab8         Code  Gb  short.o [4]
+?mul32_l0_l0_0x         0x008713         Code  Gb  long.o [4]
+?mul32_l0_l0_dl         0x008710         Code  Gb  long.o [4]
+?mul32_l0_l0_l1         0x00871c         Code  Gb  long.o [4]
+?pop_l0                 0x008412         Code  Gb  vreg_util.o [4]
+?pop_l1                 0x00841d         Code  Gb  vreg_util.o [4]
+?pop_l2                 0x008428         Code  Gb  vreg_util.o [4]
+?pop_l3                 0x008433         Code  Gb  vreg_util.o [4]
+?pop_w4                 0x0083c4         Code  Gb  vreg_util.o [4]
+?pop_w6                 0x0083cb         Code  Gb  vreg_util.o [4]
+?pop_w7                 0x0083d2         Code  Gb  vreg_util.o [4]
+?push_l0                0x0083e1         Code  Gb  vreg_util.o [4]
+?push_l1                0x0083e6         Code  Gb  vreg_util.o [4]
+?push_l2                0x0083eb         Code  Gb  vreg_util.o [4]
+?push_l3                0x0083f0         Code  Gb  vreg_util.o [4]
+?push_w4                0x0083a2         Code  Gb  vreg_util.o [4]
+?push_w6                0x0083a7         Code  Gb  vreg_util.o [4]
+?push_w7                0x0083ac         Code  Gb  vreg_util.o [4]
+?sdiv16_x_x_y           0x009ad6         Code  Gb  short.o [4]
+?sext16_x_a             0x009b0c         Code  Gb  short.o [4]
+?sll16_x_x_a            0x009aff         Code  Gb  short.o [4]
+?sll32_0x_0x_a          0x00881c         Code  Gb  long.o [4]
+?sll32_l0_l0_a          0x008819         Code  Gb  long.o [4]
+?sll32_l0_l0_db         0x008815         Code  Gb  long.o [4]
+?sll8_a_a_5             0x00a5b8         Code  Gb  char.o [4]
+?sll8_a_a_6             0x00a5b7         Code  Gb  char.o [4]
+?smod16_y_x_y           0x009aef         Code  Gb  short.o [4]
+?srl16_x_x_4            0x009b07         Code  Gb  short.o [4]
+?srl32_0x_0x_a          0x008831         Code  Gb  long.o [4]
+?srl32_l0_l0_a          0x00882e         Code  Gb  long.o [4]
+?srl32_l0_l0_db         0x00882a         Code  Gb  long.o [4]
+?sub32_l0_l0_0x         0x0086f8         Code  Gb  long.o [4]
+?sub32_l0_l0_l1         0x0086f5         Code  Gb  long.o [4]
+?ucmp32_c_l0_l1         0x00880a         Code  Gb  long.o [4]
+?udiv32_l0_l0_dl        0x00879a         Code  Gb  long.o [4]
+?udiv32_l0_l0_l1        0x00879d         Code  Gb  long.o [4]
+?umod32_l1_l0_l1        0x00879d         Code  Gb  long.o [4]
 ?w0                     0x000000         Data  Gb  vregs.o [4]
 ?w1                     0x000002         Data  Gb  vregs.o [4]
 ?w2                     0x000004         Data  Gb  vregs.o [4]
@@ -454,194 +490,226 @@ Entry                    Address   Size  Type      Object
 ?w5                     0x00000a         Data  Gb  vregs.o [4]
 ?w6                     0x00000c         Data  Gb  vregs.o [4]
 ?w7                     0x00000e         Data  Gb  vregs.o [4]
-ADC_ChannelCmd          0x00995a   0x11  Code  Gb  stm8l15x_adc.o [1]
-ADC_ClearFlag           0x009b37    0x6  Code  Gb  stm8l15x_adc.o [1]
-ADC_Cmd                 0x009a62    0xd  Code  Gb  stm8l15x_adc.o [1]
-ADC_GetConversionValue  0x00983a   0x1d  Code  Gb  stm8l15x_adc.o [1]
-ADC_GetFlagStatus       0x009ae2    0xb  Code  Gb  stm8l15x_adc.o [1]
-ADC_Init                0x00990a   0x16  Code  Gb  stm8l15x_adc.o [1]
-ADC_SoftwareStartConv   0x009b48    0x5  Code  Gb  stm8l15x_adc.o [1]
-CLK_GetClockFreq        0x009527   0x3a  Code  Gb  stm8l15x_clk.o [1]
-CLK_HSICmd              0x009a6f    0xd  Code  Gb  stm8l15x_clk.o [1]
+ADC_ChannelCmd          0x00a410   0x11  Code  Gb  stm8l15x_adc.o [1]
+ADC_ClearFlag           0x00a59f    0x6  Code  Gb  stm8l15x_adc.o [1]
+ADC_Cmd                 0x00a4f8    0xd  Code  Gb  stm8l15x_adc.o [1]
+ADC_GetConversionValue  0x00a2b5   0x1d  Code  Gb  stm8l15x_adc.o [1]
+ADC_GetFlagStatus       0x00a56c    0xb  Code  Gb  stm8l15x_adc.o [1]
+ADC_Init                0x00a3d3   0x16  Code  Gb  stm8l15x_adc.o [1]
+ADC_SoftwareStartConv   0x00a5c7    0x5  Code  Gb  stm8l15x_adc.o [1]
+Angle_search            0x009680   0x82  Code  Lc  koovox_neck_protect.o [1]
+CLK_GetClockFreq        0x009f55   0x3a  Code  Gb  stm8l15x_clk.o [1]
+CLK_HSICmd              0x00a505    0xd  Code  Gb  stm8l15x_clk.o [1]
 CLK_PeripheralClockConfig
-                        0x009137   0x5c  Code  Gb  stm8l15x_clk.o [1]
-CLK_SYSCLKDivConfig     0x009b6a    0x4  Code  Gb  stm8l15x_clk.o [1]
-CLK_SYSCLKSourceConfig  0x009b66    0x4  Code  Gb  stm8l15x_clk.o [1]
-CSTACK$$Base            0x000300          --   Gb  - Linker created -
-CSTACK$$Limit           0x000400          --   Gb  - Linker created -
-FLASH_Unlock            0x0098a8   0x1a  Code  Gb  stm8l15x_flash.o [1]
-GPIO_Init               0x008f45   0x6b  Code  Gb  stm8l15x_gpio.o [1]
-GPIO_ResetBits          0x009b6e    0x4  Code  Gb  stm8l15x_gpio.o [1]
-GPIO_SetBits            0x009b72    0x3  Code  Gb  stm8l15x_gpio.o [1]
-I2C_AcknowledgeConfig   0x009a38    0xe  Code  Gb  stm8l15x_i2c.o [1]
-I2C_CheckEvent          0x009299   0x54  Code  Gb  stm8l15x_i2c.o [1]
-I2C_Cmd                 0x009a7c    0xd  Code  Gb  stm8l15x_i2c.o [1]
-I2C_DeInit              0x00942a   0x40  Code  Gb  stm8l15x_i2c.o [1]
-I2C_GenerateSTART       0x009a1c    0xe  Code  Gb  stm8l15x_i2c.o [1]
-I2C_GenerateSTOP        0x009a2a    0xe  Code  Gb  stm8l15x_i2c.o [1]
-I2C_GetFlagStatus       0x009604   0x34  Code  Gb  stm8l15x_i2c.o [1]
-I2C_Init                0x008697  0x115  Code  Gb  stm8l15x_i2c.o [1]
-I2C_ReceiveData         0x009b57    0x5  Code  Gb  stm8l15x_i2c.o [1]
-I2C_Send7bitAddress     0x009a0d    0xf  Code  Gb  stm8l15x_i2c.o [1]
-I2C_SendData            0x009b52    0x5  Code  Gb  stm8l15x_i2c.o [1]
+                        0x009a5c   0x5c  Code  Gb  stm8l15x_clk.o [1]
+CLK_SYSCLKDivConfig     0x00a5f1    0x4  Code  Gb  stm8l15x_clk.o [1]
+CLK_SYSCLKSourceConfig  0x00a5ed    0x4  Code  Gb  stm8l15x_clk.o [1]
+CSTACK$$Base            0x000700          --   Gb  - Linker created -
+CSTACK$$Limit           0x000800          --   Gb  - Linker created -
+EXTI4_IRQHandler        0x00a5c2    0x5  Code  Gb  main.o [1]
+EXTI_DeInit             0x00a1e7   0x21  Code  Gb  stm8l15x_exti.o [1]
+EXTI_SetPinSensitivity  0x0094e7   0x8a  Code  Gb  stm8l15x_exti.o [1]
+FLASH_Unlock            0x00a35b   0x1a  Code  Gb  stm8l15x_flash.o [1]
+GPIO_Init               0x009866   0x6b  Code  Gb  stm8l15x_gpio.o [1]
+GPIO_ReadInputDataBit   0x00a5fc    0x3  Code  Gb  stm8l15x_gpio.o [1]
+GPIO_ResetBits          0x00a5f5    0x4  Code  Gb  stm8l15x_gpio.o [1]
+GPIO_SetBits            0x00a5f9    0x3  Code  Gb  stm8l15x_gpio.o [1]
+I2C_AcknowledgeConfig   0x00a4ce    0xe  Code  Gb  stm8l15x_i2c.o [1]
+I2C_CheckEvent          0x009c72   0x54  Code  Gb  stm8l15x_i2c.o [1]
+I2C_Cmd                 0x00a512    0xd  Code  Gb  stm8l15x_i2c.o [1]
+I2C_DeInit              0x009e9a   0x40  Code  Gb  stm8l15x_i2c.o [1]
+I2C_GenerateSTART       0x00a4b2    0xe  Code  Gb  stm8l15x_i2c.o [1]
+I2C_GenerateSTOP        0x00a4c0    0xe  Code  Gb  stm8l15x_i2c.o [1]
+I2C_GetFlagStatus       0x00a032   0x34  Code  Gb  stm8l15x_i2c.o [1]
+I2C_Init                0x008b13  0x115  Code  Gb  stm8l15x_i2c.o [1]
+I2C_ReceiveData         0x00a5d6    0x5  Code  Gb  stm8l15x_i2c.o [1]
+I2C_Send7bitAddress     0x00a4a3    0xf  Code  Gb  stm8l15x_i2c.o [1]
+I2C_SendData            0x00a5d1    0x5  Code  Gb  stm8l15x_i2c.o [1]
 INTVEC$$Base            0x008000          --   Gb  - Linker created -
 INTVEC$$Limit           0x008080          --   Gb  - Linker created -
-Init_usart1             0x009561   0x38  Code  Gb  koovox_uart.o [1]
-Koovox_ad_to_acc        0x0093dd   0x4d  Code  Lc  koovox_lis3dh_sensor.o [1]
-Koovox_calc_accelerate  0x0087ac  0x105  Code  Gb  koovox_lis3dh_sensor.o [1]
-Koovox_const_seat       0x008c22   0xb8  Code  Gb  koovox_const_seat.o [1]
+Init_usart1             0x009f8f   0x38  Code  Gb  koovox_uart.o [1]
+KoovoxConstSeat         0x00978a   0x6d  Code  Lc  koovox_const_seat.o [1]
+KoovoxProtectNeck       0x00853e  0x187  Code  Lc  koovox_neck_protect.o [1]
+Koovox_ad_to_acc        0x009e0c   0x4d  Code  Lc  koovox_lis3dh_sensor.o [1]
+Koovox_calc_accelerate  0x008c28  0x101  Code  Gb  koovox_lis3dh_sensor.o [1]
+Koovox_calc_step_value  0x008e28   0xeb  Code  Lc  koovox_step_count.o [1]
+Koovox_const_seat       0x009298   0x9a  Code  Gb  koovox_const_seat.o [1]
 Koovox_const_seat_event
-                        0x009aca    0xc  Code  Gb  koovox_const_seat.o [1]
+                        0x00977e    0xc  Code  Gb  koovox_const_seat.o [1]
 Koovox_convert_acc_value
-                        0x008dec   0x7c  Code  Lc  koovox_lis3dh_sensor.o [1]
+                        0x009702   0x7c  Code  Lc  koovox_lis3dh_sensor.o [1]
 Koovox_disable_const_seat
-                        0x00998d   0x10  Code  Gb  koovox_const_seat.o [1]
+                        0x00a098   0x2e  Code  Gb  koovox_const_seat.o [1]
+Koovox_disable_health_monitor
+                        0x00a3bd   0x16  Code  Lc  koovox_message_handle.o [1]
 Koovox_disable_heart_rate
-                        0x009638   0x32  Code  Gb  koovox_hb_sensor.o [1]
+                        0x00a066   0x32  Code  Gb  koovox_hb_sensor.o [1]
 Koovox_disable_neck_protect
-                        0x0099dd   0x10  Code  Gb  koovox_neck_protect.o [1]
+                        0x00a483   0x10  Code  Gb  koovox_neck_protect.o [1]
 Koovox_disable_nod_head
-                        0x0099ad   0x10  Code  Gb  koovox_head_action.o [1]
+                        0x00a463   0x10  Code  Gb  koovox_head_action.o [1]
 Koovox_disable_shake_head
-                        0x0099cd   0x10  Code  Gb  koovox_head_action.o [1]
+                        0x00a473   0x10  Code  Gb  koovox_head_action.o [1]
 Koovox_disable_step_count
-                        0x0099ed   0x10  Code  Gb  koovox_step_count.o [1]
+                        0x009146   0xb2  Code  Gb  koovox_step_count.o [1]
 Koovox_enable_const_seat
-                        0x0092ed   0x51  Code  Gb  koovox_const_seat.o [1]
+                        0x009d19   0x51  Code  Gb  koovox_const_seat.o [1]
+Koovox_enable_health_monitor
+                        0x009f19   0x3c  Code  Lc  koovox_message_handle.o [1]
 Koovox_enable_heart_rate
-                        0x008fb0   0x69  Code  Gb  koovox_hb_sensor.o [1]
+                        0x0098d1   0x69  Code  Gb  koovox_hb_sensor.o [1]
 Koovox_enable_neck_protect
-                        0x00907d   0x5d  Code  Gb  koovox_neck_protect.o [1]
-Koovox_enable_nod_head  0x00999d   0x10  Code  Gb  koovox_head_action.o [1]
+                        0x0099ff   0x5d  Code  Gb  koovox_neck_protect.o [1]
+Koovox_enable_nod_head  0x00a2d2   0x1c  Code  Gb  koovox_head_action.o [1]
 Koovox_enable_shake_head
-                        0x0099bd   0x10  Code  Gb  koovox_head_action.o [1]
+                        0x00a2ee   0x1c  Code  Gb  koovox_head_action.o [1]
 Koovox_enable_step_count
-                        0x009934   0x13  Code  Gb  koovox_step_count.o [1]
+                        0x0091f8   0xa0  Code  Gb  koovox_step_count.o [1]
 Koovox_enable_time_counter
-                        0x009767   0x26  Code  Gb  koovox_lis3dh_sensor.o [1]
+                        0x00a19b   0x26  Code  Gb  koovox_lis3dh_sensor.o [1]
 Koovox_fill_and_send_packet
-                        0x008b5f   0xc3  Code  Gb  koovox_message_handle.o [1]
-Koovox_fill_three_param
-                        0x008a95   0xca  Code  Gb  koovox_message_handle.o [1]
+                        0x008f13   0xc3  Code  Gb  koovox_message_handle.o [1]
+Koovox_fill_max_param   0x009cc6   0x53  Code  Lc  koovox_head_action.o [1]
+Koovox_fill_min_param   0x009d6a   0x51  Code  Lc  koovox_head_action.o [1]
+Koovox_find_max_min_value
+                        0x00883f  0x176  Code  Lc  koovox_head_action.o [1]
+Koovox_health_monitor   0x009e59   0x41  Code  Gb  koovox_message_handle.o [1]
+Koovox_heartrate_calc   0x008080  0x322  Code  Lc  koovox_hb_sensor.o [1]
 Koovox_judge_walk_status
-                        0x009599   0x36  Code  Gb  koovox_step_count.o [1]
-Koovox_message_handle   0x00822c  0x189  Code  Gb  koovox_message_handle.o [1]
-Koovox_neck_protect     0x0088b1   0xf8  Code  Gb  koovox_neck_protect.o [1]
+                        0x009fc7   0x36  Code  Gb  koovox_step_count.o [1]
+Koovox_message_handle   0x0089b5  0x15e  Code  Gb  koovox_message_handle.o [1]
+Koovox_neck_protect     0x008fd6   0xbc  Code  Gb  koovox_neck_protect.o [1]
 Koovox_neck_protect_event
-                        0x00933e   0x51  Code  Gb  koovox_neck_protect.o [1]
-Koovox_nod_head         0x00946a   0x3f  Code  Gb  koovox_head_action.o [1]
-Koovox_read_acc_value   0x0094e8   0x3f  Code  Gb  koovox_lis3dh_sensor.o [1]
+                        0x009dbb   0x51  Code  Gb  koovox_neck_protect.o [1]
+Koovox_nod_head         0x009332   0x95  Code  Gb  koovox_head_action.o [1]
+Koovox_read_acc_value   0x009eda   0x3f  Code  Gb  koovox_lis3dh_sensor.o [1]
 Koovox_read_data_from_e2prom
-                        0x009857   0x1c  Code  Gb  stm8l15x_flash.o [1]
-Koovox_receive_message  0x0098c2   0x19  Code  Gb  koovox_uart.o [1]
-Koovox_send_hb_adc_value
-                        0x0091ed   0x57  Code  Gb  koovox_hb_sensor.o [1]
-Koovox_send_message     0x009019   0x64  Code  Gb  koovox_uart.o [1]
-Koovox_shake_head       0x0094a9   0x3f  Code  Gb  koovox_head_action.o [1]
-Koovox_step_count       0x008cda   0x89  Code  Gb  koovox_step_count.o [1]
+                        0x00a30a   0x1c  Code  Gb  stm8l15x_flash.o [1]
+Koovox_receive_message  0x00a375   0x19  Code  Gb  koovox_uart.o [1]
+Koovox_send_heart_rate_value
+                        0x0095fa   0x86  Code  Gb  koovox_hb_sensor.o [1]
+Koovox_send_message     0x00993a   0x64  Code  Gb  koovox_uart.o [1]
+Koovox_shake_head       0x0093c7   0x95  Code  Gb  koovox_head_action.o [1]
+Koovox_step_count       0x00999e   0x61  Code  Gb  koovox_step_count.o [1]
 Koovox_step_count_event
-                        0x00988e   0x1a  Code  Gb  koovox_step_count.o [1]
+                        0x00a341   0x1a  Code  Gb  koovox_step_count.o [1]
 Koovox_store_data_to_e2prom
-                        0x0097be   0x20  Code  Gb  stm8l15x_flash.o [1]
-LIS3DH_Init             0x009697   0x2c  Code  Gb  koovox_lis3dh_sensor.o [1]
-LIS3DH_Init_Config      0x008a85   0x10  Code  Gb  koovox_lis3dh_sensor.o [1]
-LIS3DH_LowLevel_Init    0x0096c3   0x2b  Code  Lc  koovox_lis3dh_sensor.o [1]
-LIS3DH_ReadAccData      0x008080  0x1ac  Code  Gb  koovox_lis3dh_sensor.o [1]
-LIS3DH_WriteReg         0x0089a9   0xdc  Code  Gb  koovox_lis3dh_sensor.o [1]
-LIS3DH_status           0x0095cf   0x35  Code  Gb  koovox_lis3dh_sensor.o [1]
-Region$$Table$$Base     0x0097ac          --   Gb  - Linker created -
-Region$$Table$$Limit    0x0097be          --   Gb  - Linker created -
-SYSDivFactor            0x009b43    0x5  Data  Gb  stm8l15x_clk.o [1]
-TIM2_ClearFlag          0x009a96    0xd  Code  Gb  stm8l15x_tim2.o [1]
-TIM2_Cmd                0x009a89    0xd  Code  Gb  stm8l15x_tim2.o [1]
-TIM2_ITConfig           0x00996b   0x11  Code  Gb  stm8l15x_tim2.o [1]
-TIM2_TimeBaseInit       0x00978d   0x1f  Code  Gb  stm8l15x_tim2.o [1]
+                        0x00a21a   0x20  Code  Gb  stm8l15x_flash.o [1]
+Koovox_system_sleep     0x00a1c1   0x26  Code  Lc  main.o [1]
+LIS3DH_Init             0x00a0f3   0x2c  Code  Gb  koovox_lis3dh_sensor.o [1]
+LIS3DH_Init_Config      0x0094d7   0x10  Code  Gb  koovox_lis3dh_sensor.o [1]
+LIS3DH_LowLevel_Init    0x00a11f   0x2b  Code  Lc  koovox_lis3dh_sensor.o [1]
+LIS3DH_ReadAccData      0x008d29   0xff  Code  Gb  koovox_lis3dh_sensor.o [1]
+LIS3DH_WriteReg         0x00945c   0x7b  Code  Gb  koovox_lis3dh_sensor.o [1]
+LIS3DH_status           0x009ffd   0x35  Code  Gb  koovox_lis3dh_sensor.o [1]
+Region$$Table$$Base     0x00a208          --   Gb  - Linker created -
+Region$$Table$$Limit    0x00a21a          --   Gb  - Linker created -
+SYSDivFactor            0x00a5bd    0x5  Data  Gb  stm8l15x_clk.o [1]
+TIM2_ClearFlag          0x00a52c    0xd  Code  Gb  stm8l15x_tim2.o [1]
+TIM2_Cmd                0x00a51f    0xd  Code  Gb  stm8l15x_tim2.o [1]
+TIM2_ITConfig           0x00a421   0x11  Code  Gb  stm8l15x_tim2.o [1]
+TIM2_TimeBaseInit       0x00a23a   0x1f  Code  Gb  stm8l15x_tim2.o [1]
 TIM2_UPD_OVF_TRG_BRK_USART2_TX_IRQHandler
-                        0x008e68   0x6f  Code  Gb  koovox_hb_sensor.o [1]
-TIM3_ClearFlag          0x009ab0    0xd  Code  Gb  stm8l15x_tim3.o [1]
-TIM3_Cmd                0x009aa3    0xd  Code  Gb  stm8l15x_tim3.o [1]
-TIM3_ITConfig           0x00997c   0x11  Code  Gb  stm8l15x_tim3.o [1]
-TIM3_TimeBaseInit       0x0097de   0x1f  Code  Gb  stm8l15x_tim3.o [1]
+                        0x0097f7   0x6f  Code  Gb  koovox_hb_sensor.o [1]
+TIM3_ClearFlag          0x00a546    0xd  Code  Gb  stm8l15x_tim3.o [1]
+TIM3_Cmd                0x00a539    0xd  Code  Gb  stm8l15x_tim3.o [1]
+TIM3_ITConfig           0x00a432   0x11  Code  Gb  stm8l15x_tim3.o [1]
+TIM3_TimeBaseInit       0x00a259   0x1f  Code  Gb  stm8l15x_tim3.o [1]
 TIM3_UPD_OVF_TRG_BRK_USART3_TX_IRQHandler
-                        0x0096ee   0x29  Code  Gb  koovox_lis3dh_sensor.o [1]
+                        0x00a14a   0x29  Code  Gb  koovox_lis3dh_sensor.o [1]
 USART1_RX_TIM5_CC_IRQHandler
-                        0x009244   0x55  Code  Gb  koovox_uart.o [1]
+                        0x009c1d   0x55  Code  Gb  koovox_uart.o [1]
 USART_ClearITPendingBit
-                        0x009aed    0xa  Code  Gb  stm8l15x_usart.o [1]
-USART_Cmd               0x0099fd   0x10  Code  Gb  stm8l15x_usart.o [1]
-USART_GetFlagStatus     0x0098db   0x18  Code  Gb  stm8l15x_usart.o [1]
-USART_ITConfig          0x009193   0x5a  Code  Gb  stm8l15x_usart.o [1]
-USART_Init              0x008d63   0x89  Code  Gb  stm8l15x_usart.o [1]
-USART_ReceiveData8      0x009b75    0x3  Code  Gb  stm8l15x_usart.o [1]
-USART_SendData8         0x009b78    0x3  Code  Gb  stm8l15x_usart.o [1]
-__DebugBreak            0x009b89    0x1  Code  Gb  __dbg_break.o [3]
-__exit                  0x009920   0x14  Code  Gb  __dbg_xxexit.o [3]
-__iar_copy_init2        0x00973f         Code  Gb  init_small.o [4]
-__iar_data_init2        0x0098f3   0x17  Code  Gb  init.o [4]
-__iar_program_start     0x009947         Code  Gb  cstartup.o [4]
+                        0x00a577    0xa  Code  Gb  stm8l15x_usart.o [1]
+USART_Cmd               0x00a493   0x10  Code  Gb  stm8l15x_usart.o [1]
+USART_GetFlagStatus     0x00a38e   0x18  Code  Gb  stm8l15x_usart.o [1]
+USART_ITConfig          0x009b13   0x5a  Code  Gb  stm8l15x_usart.o [1]
+USART_Init              0x009571   0x89  Code  Gb  stm8l15x_usart.o [1]
+USART_ReceiveData8      0x00a5ff    0x3  Code  Gb  stm8l15x_usart.o [1]
+USART_SendData8         0x00a602    0x3  Code  Gb  stm8l15x_usart.o [1]
+__DebugBreak            0x00a613    0x1  Code  Gb  __dbg_break.o [3]
+__exit                  0x00a3e9   0x14  Code  Gb  __dbg_xxexit.o [3]
+__iar_copy_init2        0x00a173         Code  Gb  init_small.o [4]
+__iar_data_init2        0x00a3a6   0x17  Code  Gb  init.o [4]
+__iar_program_start     0x00a3fd         Code  Gb  cstartup.o [4]
 __iar_unhandled_exception
-                        0x009b84         Code  Gb  unhandled_exception.o [4]
-__iar_zero_init2        0x00981c         Code  Gb  init_small.o [4]
+                        0x00a60e         Code  Gb  unhandled_exception.o [4]
+__iar_zero_init2        0x00a297         Code  Gb  init_small.o [4]
 __intvec                0x008000         Data  Gb  interrupt.o [4]
-__low_level_init        0x009b7e    0x3  Code  Gb  low_level_init.o [4]
-_exit                   0x009b61         Code  Gb  cexit.o [4]
-_interrupt_1            0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_10           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_11           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_12           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_13           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_14           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_15           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_16           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_17           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_18           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_19           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_2            0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_20           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_21           0x008e68         Code  Gb  koovox_hb_sensor.o [1]
-_interrupt_22           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_23           0x0096ee         Code  Gb  koovox_lis3dh_sensor.o [1]
-_interrupt_24           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_25           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_26           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_27           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_28           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_29           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_3            0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_30           0x009244         Code  Gb  koovox_uart.o [1]
-_interrupt_31           0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_4            0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_5            0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_6            0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_7            0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_8            0x009b7b         Code  Wk  interrupt.o [4]
-_interrupt_9            0x009b7b         Code  Wk  interrupt.o [4]
-ad_hb                   0x000014   0x28  Data  Gb  koovox_hb_sensor.o [1]
-const_seat_count        0x000048    0x4  Data  Gb  koovox_const_seat.o [1]
-const_seat_enable       0x000068    0x1  Data  Gb  koovox_const_seat.o [1]
-const_seat_time         0x000010    0x2  Data  Gb  koovox_const_seat.o [1]
-curr_time               0x000050    0x4  Data  Gb  koovox_lis3dh_sensor.o [1]
-exit                    0x009b81    0x3  Code  Gb  exit.o [4]
-frame_valid             0x000072    0x1  Data  Gb  koovox_uart.o [1]
-hb_adc_valid            0x000069    0x1  Data  Gb  koovox_hb_sensor.o [1]
-heart_rate_enable       0x00006a    0x1  Data  Gb  koovox_hb_sensor.o [1]
-index                   0x000064    0x2  Data  Gb  koovox_hb_sensor.o [1]
-index_acc               0x00004c    0x4  Data  Gb  koovox_lis3dh_sensor.o [1]
-main                    0x008ed7   0x6e  Code  Gb  main.o [1]
-neck_perfect_count      0x000058    0x4  Data  Gb  koovox_neck_protect.o [1]
-neck_perfect_lock       0x00006e    0x1  Data  Gb  koovox_neck_protect.o [1]
-neck_protect_count      0x000054    0x4  Data  Gb  koovox_neck_protect.o [1]
-neck_protect_enable     0x00006f    0x1  Data  Gb  koovox_neck_protect.o [1]
-neck_protect_lock       0x00006d    0x1  Data  Gb  koovox_neck_protect.o [1]
-neck_protect_time       0x000012    0x2  Data  Gb  koovox_neck_protect.o [1]
-neck_updata_count       0x00005c    0x4  Data  Gb  koovox_neck_protect.o [1]
-nod_head_enable         0x00006b    0x1  Data  Gb  koovox_head_action.o [1]
-shake_head_enable       0x00006c    0x1  Data  Gb  koovox_head_action.o [1]
-size                    0x000071    0x1  Data  Gb  koovox_uart.o [1]
-step_count              0x000066    0x2  Data  Gb  koovox_step_count.o [1]
-step_count_enable       0x000070    0x1  Data  Gb  koovox_step_count.o [1]
-step_time_cnt           0x000060    0x4  Data  Gb  koovox_step_count.o [1]
-usart_msg               0x00003c    0xc  Data  Gb  koovox_uart.o [1]
+__low_level_init        0x00a608    0x3  Code  Gb  low_level_init.o [4]
+_exit                   0x00a5e0         Code  Gb  cexit.o [4]
+_interrupt_1            0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_10           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_11           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_12           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_13           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_14           0x00a5c2         Code  Gb  main.o [1]
+_interrupt_15           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_16           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_17           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_18           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_19           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_2            0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_20           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_21           0x0097f7         Code  Gb  koovox_hb_sensor.o [1]
+_interrupt_22           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_23           0x00a14a         Code  Gb  koovox_lis3dh_sensor.o [1]
+_interrupt_24           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_25           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_26           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_27           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_28           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_29           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_3            0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_30           0x009c1d         Code  Gb  koovox_uart.o [1]
+_interrupt_31           0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_4            0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_5            0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_6            0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_7            0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_8            0x00a605         Code  Wk  interrupt.o [4]
+_interrupt_9            0x00a605         Code  Wk  interrupt.o [4]
+ad_hb                   0x00011e   0x28  Data  Gb  koovox_hb_sensor.o [1]
+angle_init_cnt          0x0001b9    0x1  Data  Gb  koovox_neck_protect.o [1]
+angle_x_int             0x0001ab    0x2  Data  Lc  koovox_neck_protect.o [1]
+angle_y_int             0x0001ad    0x2  Data  Lc  koovox_neck_protect.o [1]
+angle_z_int             0x0001af    0x2  Data  Lc  koovox_neck_protect.o [1]
+axis_x_var              0x000146   0x11  Data  Gb  koovox_head_action.o [1]
+axis_y_var              0x000157   0x11  Data  Gb  koovox_head_action.o [1]
+axis_z_var              0x000168   0x11  Data  Gb  koovox_head_action.o [1]
+const_seat_count        0x000185    0x4  Data  Gb  koovox_const_seat.o [1]
+const_seat_enable       0x0001b3    0x1  Data  Gb  koovox_const_seat.o [1]
+const_seat_time         0x00002a    0x2  Data  Gb  koovox_const_seat.o [1]
+curr_time               0x00018d    0x4  Data  Gb  koovox_lis3dh_sensor.o [1]
+exit                    0x00a60b    0x3  Code  Gb  exit.o [4]
+frame_valid             0x0001bf    0x1  Data  Gb  koovox_uart.o [1]
+hb_adc_valid            0x0001b4    0x1  Data  Gb  koovox_hb_sensor.o [1]
+hb_calc_buff            0x00002e   0xf0  Data  Gb  koovox_hb_sensor.o [1]
+health_monitor_enable   0x0001b8    0x1  Data  Gb  koovox_message_handle.o [1]
+health_monitor_time     0x000191    0x4  Data  Gb  koovox_message_handle.o [1]
+heart_rate_enable       0x0001b5    0x1  Data  Gb  koovox_hb_sensor.o [1]
+index                   0x0001a9    0x2  Data  Gb  koovox_hb_sensor.o [1]
+index_acc               0x000189    0x4  Data  Gb  koovox_lis3dh_sensor.o [1]
+koovox_step             0x0001a5    0x4  Data  Gb  koovox_step_count.o [1]
+main                    0x009bc7   0x56  Code  Gb  main.o [1]
+neck_perfect_count      0x000199    0x4  Data  Gb  koovox_neck_protect.o [1]
+neck_perfect_lock       0x0001bb    0x1  Data  Gb  koovox_neck_protect.o [1]
+neck_protect_count      0x000195    0x4  Data  Gb  koovox_neck_protect.o [1]
+neck_protect_enable     0x0001bc    0x1  Data  Gb  koovox_neck_protect.o [1]
+neck_protect_lock       0x0001ba    0x1  Data  Gb  koovox_neck_protect.o [1]
+neck_protect_time       0x00002c    0x2  Data  Gb  koovox_neck_protect.o [1]
+neck_updata_count       0x00019d    0x4  Data  Gb  koovox_neck_protect.o [1]
+nod_head_enable         0x0001b6    0x1  Data  Gb  koovox_head_action.o [1]
+seat_var                0x000021    0x9  Data  Gb  koovox_const_seat.o [1]
+shake_head_enable       0x0001b7    0x1  Data  Gb  koovox_head_action.o [1]
+sin_table               0x009092   0xb4  Data  Gb  koovox_neck_protect.o [1]
+size                    0x0001be    0x1  Data  Gb  koovox_uart.o [1]
+step_count              0x0001b1    0x2  Data  Gb  koovox_step_count.o [1]
+step_count_enable       0x0001bd    0x1  Data  Gb  koovox_step_count.o [1]
+step_time_cnt           0x0001a1    0x4  Data  Gb  koovox_step_count.o [1]
+step_var                0x000010   0x11  Data  Gb  koovox_step_count.o [1]
+system_sleep_enable     0x0001c0    0x1  Data  Gb  main.o [1]
+usart_msg               0x000179    0xc  Data  Gb  koovox_uart.o [1]
 
 
 [1] = D:\STM8\Koovox\Obj
@@ -649,9 +717,9 @@ usart_msg               0x00003c    0xc  Data  Gb  koovox_uart.o [1]
 [3] = dbgstm8smd.a
 [4] = dlstm8smn.a
 
-  6 772 bytes of readonly  code memory
-    282 bytes of readonly  data memory
-    371 bytes of readwrite data memory
+  9 324 bytes of readonly  code memory
+    454 bytes of readonly  data memory
+    705 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

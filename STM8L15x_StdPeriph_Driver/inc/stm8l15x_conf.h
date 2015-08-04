@@ -34,7 +34,7 @@
 //#include "stm8l15x_comp.h"
 //#include "stm8l15x_dac.h"
 //#include "stm8l15x_dma.h"
-//#include "stm8l15x_exti.h"
+#include "stm8l15x_exti.h"
 #include "stm8l15x_flash.h"
 #include "stm8l15x_gpio.h"
 #include "stm8l15x_i2c.h"
@@ -80,6 +80,27 @@
 #else
   #define assert_param(expr) ((void)0)
 #endif /* USE_FULL_ASSERT */
+
+#define CPU_4_MHZ
+
+#ifdef CPU_8_MHZ
+#define CLK_SYSCLK_DIV		CLK_SYSCLKDiv_2
+#define TIM2_PRESCALER		TIM2_Prescaler_64
+#define	TIM3_PRESCALER		TIM3_Prescaler_128
+#endif
+
+#ifdef CPU_4_MHZ
+#define CLK_SYSCLK_DIV		CLK_SYSCLKDiv_4
+#define TIM2_PRESCALER		TIM2_Prescaler_32
+#define	TIM3_PRESCALER		TIM3_Prescaler_64
+#endif
+
+#ifdef CPU_2_MHZ
+#define CLK_SYSCLK_DIV		CLK_SYSCLKDiv_8
+#define TIM2_PRESCALER		TIM2_Prescaler_16
+#define	TIM3_PRESCALER		TIM3_Prescaler_32
+#endif
+
 
 #endif /* __STM8L15x_CONF_H */
 

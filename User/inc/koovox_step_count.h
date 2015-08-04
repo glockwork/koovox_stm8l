@@ -14,7 +14,18 @@ FILE NAME
 
 #define STEP_COUNT_MIN_THRESHOLD	82
 #define STEP_COUNT_MAX_THRESHOLD	143
-#define VALUE_THRESHOLD				15
+#define TIME_THRESHOLD				6
+
+typedef struct{
+	uint8_t status ;/* 0:表示上升沿； 1:表示下降沿 */
+	uint8_t max_flag ;
+	uint8_t min_flag;
+	uint16_t min_value;
+	uint16_t max_value;
+	uint16_t pre_value;
+	uint32_t index_max;	/* 前一个极大值下标 */
+	uint32_t index_min;	/* 前一个极小值下标 */
+}Acc_step_var;
 
 
 uint8_t Koovox_enable_step_count(void);

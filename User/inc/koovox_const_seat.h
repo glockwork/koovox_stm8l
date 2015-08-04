@@ -17,6 +17,21 @@ FILE NAME
 #define CONST_SEAT_MIN_THRESHOLD	49
 #define CONST_SEAT_MAX_THRESHOLD	120
 
+#define GET_UP_MIN_THRESHOLD	37
+#define GET_UP_MAX_THRESHOLD	144
+#define GET_UP_VALUE_THRESHOLD	120
+#define INDEX_THRESHOLD			10
+
+
+typedef struct{
+	uint8_t status;/* 0:表示上升沿； 1:表示下降沿	*/
+	uint8_t max_flag;
+	uint8_t max_value;
+	uint16_t p_value;/* 前一个加速度矢量和 */
+	uint32_t max_index;
+}Const_seat_var;
+
+
 
 
 uint8_t Koovox_enable_const_seat(void);

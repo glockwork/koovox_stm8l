@@ -119,49 +119,43 @@ void LIS3DH_Init(void)
   */
 void LIS3DH_WriteReg(uint8_t RegName, uint8_t RegValue)
 {
-	uint32_t I2C_TimeOut = I2C_TIMEOUT;
+
+  while(I2C_GetFlagStatus(LIS3DH_I2C, I2C_FLAG_BUSY));
 
   /*-------------------------------- Transmission Phase -----------------------*/
   /* Send LIS3DH_I2C START condition */
   I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
 
   /* Test on LIS3DH_I2C EV5 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))&&(I2C_TimeOut))  /* EV5 */
+  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT)))  /* EV5 */
   {
-	  I2C_TimeOut--;
   }
 
   /* Send STLIS3DH slave address for write */
   I2C_Send7bitAddress(LIS3DH_I2C, LIS3DH_ADDR, I2C_Direction_Transmitter);
 
-  I2C_TimeOut = I2C_TIMEOUT;
 
   /* Test on LIS3DH_I2C EV6 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))&&(I2C_TimeOut)) /* EV6 */
+  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))) /* EV6 */
   {
-	  I2C_TimeOut--;
   }
 
   /* Send the specified register data pointer */
   I2C_SendData(LIS3DH_I2C, RegName);
 
-  I2C_TimeOut = I2C_TIMEOUT;
 
   /* Test on LIS3DH_I2C EV8 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))&&(I2C_TimeOut)) /* EV8 */
+  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))) /* EV8 */
   {
-	  I2C_TimeOut--;
   }
 
   /* Send LIS3DH_I2C data */
   I2C_SendData(LIS3DH_I2C, RegValue );
 
-  I2C_TimeOut = I2C_TIMEOUT;
 
   /* Test on LIS3DH_I2C EV8 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))&&(I2C_TimeOut)) /* EV8 */
+  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))) /* EV8 */
   {
-	  I2C_TimeOut--;
   }
 
   /* Send LIS3DH_I2C STOP Condition */
@@ -180,7 +174,9 @@ void LIS3DH_ReadAccData(uint8_t regAdrress, uint8_t* data_buff, uint16_t data_le
 {
 
   uint16_t i = 0;
-  uint32_t I2C_TimeOut = I2C_TIMEOUT;
+
+  
+  while(I2C_GetFlagStatus(LIS3DH_I2C, I2C_FLAG_BUSY));
 
   /* Enable LIS3DH_I2C acknowledgement if it is already disabled by other function */
   I2C_AcknowledgeConfig(LIS3DH_I2C, ENABLE);
@@ -190,62 +186,50 @@ void LIS3DH_ReadAccData(uint8_t regAdrress, uint8_t* data_buff, uint16_t data_le
   I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
 
   /* Test on LIS3DH_I2C EV5 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))&&(I2C_TimeOut))  /* EV5 */
+  while (!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))  /* EV5 */
   {
-	  I2C_TimeOut--;
   }
 
   /* Send STLIS3DH slave address for write */
   I2C_Send7bitAddress(LIS3DH_I2C, LIS3DH_ADDR, I2C_Direction_Transmitter);
 
-  I2C_TimeOut = I2C_TIMEOUT;
 
   /* Test on LIS3DH_I2C EV6 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))&&(I2C_TimeOut)) /* EV6 */
+  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))) /* EV6 */
   {
-	  I2C_TimeOut--;
   }
 
   /* Send the temperature register data pointer */
   I2C_SendData(LIS3DH_I2C, regAdrress);
   
-  I2C_TimeOut = I2C_TIMEOUT;
   
   /* Test on LIS3DH_I2C EV8 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))&&(I2C_TimeOut)) /* EV8 */
+  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_TRANSMITTED))) /* EV8 */
   {
-	  I2C_TimeOut--;
   }
 
   /*-------------------------------- Reception Phase --------------------------*/
   /* Send Re-STRAT condition */
   I2C_GenerateSTART(LIS3DH_I2C, ENABLE);
 
-  I2C_TimeOut = I2C_TIMEOUT;
-
   /* Test on EV5 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT))&&(I2C_TimeOut))  /* EV5 */
+  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_MODE_SELECT)))  /* EV5 */
   {
-	  I2C_TimeOut--;
   }
 
   /* Send STLIS3DH slave address for read */
   I2C_Send7bitAddress(LIS3DH_I2C, LIS3DH_ADDR, I2C_Direction_Receiver);
 
-  I2C_TimeOut = I2C_TIMEOUT;
   /* Test on EV6 and clear it */
-  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED))&&(I2C_TimeOut))	/* EV6 */
+  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED)))	/* EV6 */
   {
-	  I2C_TimeOut--;
   }
   
   for(i = 0; i < (data_len - 1); i++)
   {
-	  I2C_TimeOut = I2C_TIMEOUT;
 	  /* Test on EV6 and clear it */
-	  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_RECEIVED))&&(I2C_TimeOut))  /* EV7 */
+	  while ((!I2C_CheckEvent(LIS3DH_I2C, I2C_EVENT_MASTER_BYTE_RECEIVED)))  /* EV7 */
 	  {
-		  I2C_TimeOut--;
 	  }
 
 	  /* Store LIS3DH_I2C received data */
@@ -258,12 +242,10 @@ void LIS3DH_ReadAccData(uint8_t regAdrress, uint8_t* data_buff, uint16_t data_le
   /* Send LIS3DH_I2C STOP Condition */
   I2C_GenerateSTOP(LIS3DH_I2C, ENABLE);
 
-  I2C_TimeOut = I2C_TIMEOUT;
 
   /* Test on RXNE flag */
-  while ((I2C_GetFlagStatus(LIS3DH_I2C, I2C_FLAG_RXNE) == RESET)&&(I2C_TimeOut))
+  while ((I2C_GetFlagStatus(LIS3DH_I2C, I2C_FLAG_RXNE) == RESET))
   {
-	I2C_TimeOut--;
   }
 
 	/* Store LIS3DH_I2C received data */
@@ -391,7 +373,6 @@ bool Koovox_read_acc_value(uint8_t* data, uint16_t size_data)
 */
 void Koovox_calc_accelerate(void)
 {
-	step_count_enable = TRUE;
 
 	if(!step_count_enable)
 	{
@@ -460,7 +441,7 @@ void Koovox_enable_time_counter(void)
 {
 	// 初始化定时器
 	CLK_PeripheralClockConfig(CLK_Peripheral_TIM3, ENABLE);
-	TIM3_TimeBaseInit(TIM3_Prescaler_128, TIM3_CounterMode_Up,0xf424);	//  1000ms
+	TIM3_TimeBaseInit(TIM3_PRESCALER, TIM3_CounterMode_Up,0xf424);	//  1000ms
 	TIM3_ClearFlag(TIM3_FLAG_Update);
 	TIM3_ITConfig(TIM3_IT_Update, ENABLE);
 	

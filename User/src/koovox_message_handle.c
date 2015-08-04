@@ -21,6 +21,84 @@ FILE NAME
 #include "koovox_head_action.h"
 #include "koovox_step_count.h"
 
+#define HEALTH_MONITOR_TIME		(3600)		// 1 hour
+
+bool health_monitor_enable = FALSE;
+uint32_t health_monitor_time = 0;
+
+
+/**
+* @brief  Koovox_enable_health_monitor
+* @param  none
+* @retval none
+*/
+static uint8_t Koovox_enable_health_monitor(void)
+{
+	if(!health_monitor_enable)
+	{
+		uint8_t result = 0;
+		
+		health_monitor_enable = TRUE;
+
+		Koovox_enable_const_seat();
+		Koovox_enable_neck_protect();
+
+		health_monitor_time = curr_time;
+
+		/* 检测加速度传感器中断输出，判断是否处于运动状态 */
+		result = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4);
+		if(result)
+		{
+			Koovox_enable_heart_rate();
+		}
+
+		return SUC;
+	}
+	else
+		return PROCESS;
+}
+
+/**
+* @brief  Koovox_disable_health_monitor
+* @param  none
+* @retval none
+*/
+static uint8_t Koovox_disable_health_monitor(void)
+{
+	if(health_monitor_enable)
+	{
+		health_monitor_enable = FALSE;
+
+		Koovox_disable_const_seat();
+		Koovox_disable_neck_protect();
+
+		return SUC;
+	}
+	else
+		return PROCESS;
+}
+
+/**
+* @brief  Koovox_health_monitor
+* @param  none
+* @retval none
+*/
+void Koovox_health_monitor(void)
+{
+	if(health_monitor_enable)
+	{
+		uint32_t time_curr = curr_time;
+		uint8_t  result = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4);
+		if((time_curr - health_monitor_time >= HEALTH_MONITOR_TIME)
+			&&(result))
+		{
+			Koovox_enable_heart_rate();
+			health_monitor_time = time_curr;
+		}
+
+	}
+}
+
 
 /**
 * @brief  koovox_message_handle
@@ -48,7 +126,10 @@ void Koovox_message_handle(uint8_t* msg, uint8_t size)
 			switch(message->obj)
 			{
 			case SYSTEM:
-				wfe();
+				break;
+
+			case HEALTH_MONITOR:
+				ret = Koovox_enable_health_monitor();
 				break;
 				
 			case CONST_SEAT:		// 启动久坐功能
@@ -91,6 +172,10 @@ void Koovox_message_handle(uint8_t* msg, uint8_t size)
 			switch(message->obj)
 			{
 			case SYSTEM:
+				break;
+
+			case HEALTH_MONITOR:
+				Koovox_disable_health_monitor();
 				break;
 				
 			case CONST_SEAT:		// 停止久坐功能
@@ -144,20 +229,11 @@ void Koovox_message_handle(uint8_t* msg, uint8_t size)
 		}
 		break;
 
-	case ENV:
-		switch(message->obj)
+	case GET:
+		// 获取步数值
+		if(message->obj == STEP_COUNT)
 		{
-		case CONST_SEAT:
-			Koovox_const_seat_event();
-			break;
-		case NECK_PROTECT:
-			Koovox_neck_protect_event(message->data[0]);
-			break;
-		case STEP_COUNT:
-			Koovox_step_count_event();
-			break;
-		default:
-			break;
+
 		}
 		break;
 	

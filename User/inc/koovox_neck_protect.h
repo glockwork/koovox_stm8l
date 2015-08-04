@@ -12,6 +12,9 @@ FILE NAME
 
 #include "stm8l15x.h"
 
+#define ANGLE_VALUE_THRESHOLD	30
+
+
 uint8_t Koovox_enable_neck_protect(void);
 uint8_t Koovox_disable_neck_protect(void);
 
